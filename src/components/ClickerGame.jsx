@@ -12,7 +12,7 @@ const ClickerGame = () => {
 
     useEffect(() => {
         if (window.Telegram?.WebApp?.initData) {
-            const user = tg.initDataUnsafe.user;
+            const user = tg.initDataUnsafe?.user;
             console.log("User", user);
         }
     }, []);
