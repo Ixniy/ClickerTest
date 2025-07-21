@@ -15,15 +15,15 @@ function App() {
 
 
   async function getApi() {
-  try {
-    const proxyUrl = 'https://cors-anywhere.herokuapp.com/'; // Или другой прокси
-    const targetUrl = 'https://humble-carnival.../api/users/';
+  try { // Или другой прокси
+    const targetUrl = 'https://humble-carnival-r9rwqpp99r9cw7vj-80.app.github.dev/api/users/';
     
-    const response = await fetch(proxyUrl + targetUrl, {
-      method: 'POST',
+    const response = await fetch(targetUrl, {
+      method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'Origin': 'https://helpful-jalebi-0e83df.netlify.app' // Укажите ваш домен
+        'Origin': 'https://helpful-jalebi-0e83df.netlify.app',
+        'Access-Control-Request-Method': 'GET' // Укажите ваш домен
       },
       body: JSON.stringify({
         id: 'user@example.com',
