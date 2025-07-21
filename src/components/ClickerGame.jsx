@@ -11,11 +11,11 @@ const ClickerGame = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        if (window.Telegram?.WebApp?.initData) {
-            const user = tg.initDataUnsafe?.user;
+        if (tg?.initData) {
+            const user = tg.initDataUnsafe.user;
             console.log("User", user);
         }
-    }, []);
+    }, [tg.initData, tg.initDataUnsafe.user]);
 
     const handleClick = async () => {
         if (clicksLeft <= 0) return;
