@@ -2,9 +2,10 @@ import React, { useState, useEffect}from 'react'
 import Button from '@mui/material/Button';
 import { Telegram } from '@mui/icons-material';
 import CircularProgress from '@mui/material/CircularProgress';
-const tg = window.Telegram.WebApp;
+import { useTelegram } from './hooks/useTelegram';
 
 const ClickerGame = () => {
+    const {tg} = useTelegram();
     const [coins, setCoins] = useState(0);
     const [clicksLeft, setClicksLeft] = useState(10);
     const [isLoading, setIsLoading] = useState(false);
