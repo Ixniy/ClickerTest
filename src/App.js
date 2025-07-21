@@ -15,12 +15,29 @@ function App() {
 
 
   async function getApi() {
-    const response = await fetch('https://humble-carnival-r9rwqpp99r9cw7vj-80.app.github.dev/api/users/');
-    const data = response.json();
-    tg.showAlert(data);
-    console.log(123);
-    console.log(data);
+  try {
+    const proxyUrl = 'https://cors-anywhere.herokuapp.com/'; // Или другой прокси
+    const targetUrl = 'https://humble-carnival.../api/users/';
+    
+    const response = await fetch(proxyUrl + targetUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Origin': 'https://helpful-jalebi-0e83df.netlify.app' // Укажите ваш домен
+      },
+      body: JSON.stringify({
+        id: 'user@example.com',
+        username: 'admin',
+        password: '123456'
+      })
+    });
+
+    const data = await response.json();
+    tg.showAlert(JSON.stringify(data));
+  } catch (error) {
+    console.error('Ошибка:', error);
   }
+}
 
 
   return (
