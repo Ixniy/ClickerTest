@@ -15,9 +15,11 @@ function App() {
 
 
   async function getApi() {
-    const response = await fetch('https://humble-carnival-r9rwqpp99r9cw7vj-80.app.github.dev/api/users/',);
+    const response = await fetch('https://humble-carnival-r9rwqpp99r9cw7vj-80.app.github.dev/api/users/');
     const data = response.json();
-    alert(data);
+    tg.showAlert(data);
+    console.log(123);
+    console.log(data);
   }
 
 
