@@ -6,7 +6,7 @@ import Header from './components/Header/Header';
 
 
 function App() {
-  const {onToggleButton, tg} = useTelegram();
+  const {tg} = useTelegram();
 
   useEffect( () => {
     tg.ready();
@@ -25,7 +25,7 @@ function App() {
     <div className="App">
       <Header />
       <ClickerGame />
-      <button onClick={getApi()}>toggleg</button>
+      <button onClick={getApi}>toggleg</button>
 
     </div>
   );
