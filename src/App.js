@@ -16,24 +16,10 @@ function App() {
 
   async function getApi() {
   try { // Или другой прокси
-    const targetUrl = 'https://humble-carnival-r9rwqpp99r9cw7vj-80.app.github.dev/api/users/';
-    
-    const response = await fetch(targetUrl, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Origin': 'https://helpful-jalebi-0e83df.netlify.app',
-        'Access-Control-Request-Method': 'GET' // Укажите ваш домен
-      },
-      body: JSON.stringify({
-        id: 'user@example.com',
-        username: 'admin',
-        password: '123456'
-      })
-    });
+    const response = await fetch('https://humble-carnival-r9rwqpp99r9cw7vj-80.app.github.dev/api/users/');
 
     const data = await response.json();
-    tg.showAlert(JSON.stringify(data));
+    console.log(data);
   } catch (error) {
     console.error('Ошибка:', error);
   }
