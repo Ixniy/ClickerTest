@@ -10,12 +10,12 @@ const ClickerGame = () => {
     const [clicksLeft, setClicksLeft] = useState(10);
     const [isLoading, setIsLoading] = useState(false);
 
-    useEffect(() => {
-        if (tg?.initData) {
-            const user = tg.initDataUnsafe.user;
-            console.log("User", user);
-        }
-    }, [tg.initData, tg.initDataUnsafe.user]);
+    // useEffect(() => {
+    //     if (tg?.initData) {
+    //         const user = tg.initDataUnsafe.user;
+    //         console.log("User", user);
+    //     }
+    // }, [tg.initData, tg.initDataUnsafe.user]);
 
     const handleClick = async () => {
         if (clicksLeft <= 0) return;

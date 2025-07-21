@@ -1,4 +1,5 @@
 const tg = window.Telegram.WebApp;
+const apiUrl = 'https://ominous-palm-tree-44g65ww4pwx27pxx-8000.app.github.dev/api/users/';
 
 export function useTelegram() {
 
@@ -18,6 +19,7 @@ export function useTelegram() {
         onClose,
         onToggleButton,
         tg,
+        apiUrl,
         user: tg.initDataUnsafe?.user,
     }
 
