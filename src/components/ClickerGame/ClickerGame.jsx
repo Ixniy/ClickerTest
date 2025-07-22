@@ -8,7 +8,6 @@ const ClickerGame = () => {
     const [coins, setCoins] = useState(0);
     const [clicksLeft, setClicksLeft] = useState(10);
     const [isLoading, setIsLoading] = useState(false);
-    const [info, setInfo] = useState(null);
 
     // useEffect(() => {
     //     if (tg?.initData) {
@@ -30,13 +29,13 @@ const ClickerGame = () => {
         }
     }
 
-    useEffect(() => {
-        return (async () => {
-            const response = await fetch('https://animated-doodle-9vqwrjjv46rfpwqp-80.app.github.dev/api/users/');
-            const data = await response.json();
-            setInfo(data);
-        })
-    }, [])
+
+    async function getApi() {
+        const response = await fetch('https://animated-doodle-9vqwrjjv46rfpwqp-80.app.github.dev/api/users/');
+        const data = await response.json();
+        console.log(data);
+    }
+
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -50,7 +49,6 @@ const ClickerGame = () => {
         <h1>Hamster Clicker</h1>
         <p>Монеты: {coins}</p>
         <p>Кликов осталось: {clicksLeft}/10</p>
-        <p>{info}</p>
         <Button
             variant='contained'
             onClick={handleClick}
@@ -59,7 +57,7 @@ const ClickerGame = () => {
         >
             {isLoading ? "Загрузка..." : 'КЛИКНИ МЕНЯ'}
         </Button>
-        <button>Xyi</button>
+        <button onClick={getApi}>Xyi</button>
         
     </div>
   )
