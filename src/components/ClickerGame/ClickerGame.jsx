@@ -30,12 +30,13 @@ const ClickerGame = () => {
         }
     }
 
-    const getApi = async () => {
-        const response = await fetch('https://animated-doodle-9vqwrjjv46rfpwqp-80.app.github.dev/api/users/');
-        const data = await response.json();
-        setInfo(data);
-    }
-
+    useEffect(() => {
+        return (async () => {
+            const response = await fetch('https://animated-doodle-9vqwrjjv46rfpwqp-80.app.github.dev/api/users/');
+            const data = await response.json();
+            setInfo(data);
+        })
+    }, [])
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -58,7 +59,7 @@ const ClickerGame = () => {
         >
             {isLoading ? "Загрузка..." : 'КЛИКНИ МЕНЯ'}
         </Button>
-        <button onClick={getApi}>Xyi</button>
+        <button>Xyi</button>
         
     </div>
   )
