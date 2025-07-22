@@ -1,7 +1,6 @@
 import React, { useState, useEffect}from 'react'
 import Button from '@mui/material/Button';
 import { Telegram } from '@mui/icons-material';
-import { CircularProgress } from '@mui/material/CircularProgress';
 import { useTelegram } from '../hooks/useTelegram';
 
 const ClickerGame = () => {
@@ -58,7 +57,7 @@ const ClickerGame = () => {
             variant='contained'
             onClick={handleClick}
             disabled={isLoading || clicksLeft <= 0}
-            startIcon={isLoading ? <CircularProgress size={20} /> : <Telegram />}
+            startIcon={<Telegram />}
         >
             {isLoading ? "Загрузка..." : 'КЛИКНИ МЕНЯ'}
         </Button>
