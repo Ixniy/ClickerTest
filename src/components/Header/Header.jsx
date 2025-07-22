@@ -4,14 +4,14 @@ import Button from '../Button/Button';
 import { useTelegram } from '../hooks/useTelegram';
 
 const Header = () => {
-    const {onClose} = useTelegram();
+    const {onClose, user} = useTelegram();
 
     return (
         <div className={classes.header}>
             <Button onClick = {onClose}>Закрыть</Button>
-            {/* <span className={'username'}>
-                {user.user?.username}
-            </span> */}
+            <span className={'username'}>
+                {user?.username}
+            </span>
         </div>
     )
 }

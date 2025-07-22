@@ -1,9 +1,11 @@
 import './App.css';
 import React, { useEffect } from 'react';
-import ClickerGame from './components/ClickerGame';
+import ClickerGame from './components/ClickerGame/ClickerGame';
 import { useTelegram } from './components/hooks/useTelegram';
 import Header from './components/Header/Header';
-
+import {Route, Routes} from 'react-router-dom';
+import TasksList from './components/TasksList/TasksList';
+import UserProfile from './components/UserProfile/UserProfile';
 
 function App() {
   const {tg} = useTelegram();
@@ -14,24 +16,16 @@ function App() {
   })
 
 
-  async function getApi() {
-  try { // Или другой прокси
-    const response = await fetch('https://humble-carnival-r9rwqpp99r9cw7vj-80.app.github.dev/api/users/');
-
-    const data = await response.json();
-    console.log(data);
-  } catch (error) {
-    console.error('Ошибка:', error);
-  }
-}
-
 
   return (
     <div className="App">
       <Header />
+      <Routes>
+        <Route index element={<ClickerGame />}/>
+        <Route path={'tasks'} element={<TasksList/>} />
+        <Route path={'profile'} element={<UserProfile/>} />
+      </Routes>
       <ClickerGame />
-      <button onClick={getApi}>toggleg</button>
-
     </div>
   );
 }
