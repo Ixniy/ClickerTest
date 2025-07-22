@@ -36,9 +36,6 @@ const ClickerGame = () => {
         setInfo(data);
     }
 
-    useEffect(() => {
-        getApi();
-    }, [])
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -61,6 +58,7 @@ const ClickerGame = () => {
         >
             {isLoading ? "Загрузка..." : 'КЛИКНИ МЕНЯ'}
         </Button>
+        <button onClick={getApi}>Xyi</button>
         
     </div>
   )
