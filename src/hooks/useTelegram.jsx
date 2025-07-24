@@ -21,6 +21,8 @@ export function useTelegram() {
         tg,
         apiUrl,
         user: tg.initDataUnsafe?.user,
+        userId: tg.id,
+        username: tg.username,
     }
 
 }

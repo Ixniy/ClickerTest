@@ -3,8 +3,10 @@ import classes from './Profile.module.css';
 import MainButton from '../../components/common/Button/MainButton';
 import RouteButton from '../../components/common/Button/RouteButton';
 import { faStar, faTicket, faUser } from '@fortawesome/free-solid-svg-icons';
+import { useTelegram } from '../../hooks/useTelegram';
 
 const Profile = () => {
+    const {userId, username} = {useTelegram}
     const iconTasks = faTicket;
     const iconTap = faStar;
     const iconProfile = faUser;
@@ -13,8 +15,8 @@ const Profile = () => {
         <div className={classes.profileWrapper}>
             <div className={classes.content}>
                 <div className={classes.userInfo}>
-                    <p className={classes.id}>ID 104895</p>
-                    <p>кирилл алексевич</p>
+                    <p className={classes.id}>{userId}</p>
+                    <p>{username}</p>
                     <p className={classes.mt}>баланс: 40000</p>
                 </div>
                 <div className={classes.btnOptions}>
