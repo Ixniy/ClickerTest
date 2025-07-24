@@ -1,22 +1,18 @@
-import React from 'react'
+import React from 'react';
 import classes from './Profile.module.css';
 import MainButton from '../../components/common/Button/MainButton';
-import RouteButton from '../../components/common/Button/RouteButton';
-import { faStar, faTicket, faUser } from '@fortawesome/free-solid-svg-icons';
 import { useTelegram } from '../../hooks/useTelegram';
+import BottomNav from "../../components/layout/BottomNav/BottomNav";
 
 const Profile = () => {
     const {user} = useTelegram();
-    const iconTasks = faTicket;
-    const iconTap = faStar;
-    const iconProfile = faUser;
 
     return (
-        <div className={classes.profileWrapper}>
+        <div className={classes.Wrapper}>
             <div className={classes.content}>
                 <div className={classes.userInfo}>
-                    <p className={classes.id}>{user?.id}</p>
-                    <p>{user?.username}</p>
+                    <p className={classes.id}>ID {user?.id}</p>
+                    <p className={classes.username}>{user?.username}</p>
                     <p className={classes.mt}>баланс: 40000</p>
                 </div>
                 <div className={classes.btnOptions}>
@@ -25,11 +21,7 @@ const Profile = () => {
                     <MainButton children={'Рейтинг'} />
                 </div>
             </div>
-            <div className={classes.navigation}>
-                <RouteButton icon = {iconTasks} text={'TASKS'}/>
-                <RouteButton icon = {iconTap} text={'TAP'}/>
-                <RouteButton icon = {iconProfile} text={'PROFILE'}/>
-            </div>
+            <BottomNav />
         </div>
     )
 }

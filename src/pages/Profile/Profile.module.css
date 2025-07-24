@@ -1,4 +1,4 @@
-.profileWrapper {
+.Wrapper {
     display: flex;
     flex-direction: column;
     gap: 50px;
@@ -32,19 +32,19 @@
     gap: 20px;
 }
 
-.navigation {
-    display: flex;
-    margin-bottom: 20px;
-    gap: 6px;
-}
 
 .mt {
     margin-top: 20px;
 }
 
 .id {
+    font-size: 16px;
     border-radius: 10px;
     background: #afadad;
     padding: 2px 7px; 
     color: #fff;
+}
+
+.username {
+    font-size: 16px;
 }
