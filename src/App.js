@@ -1,8 +1,10 @@
 import './App.css';
-import React, { useEffect } from 'react';
-import ClickerGame from './components/ClickerGame/ClickerGame';
-import { useTelegram } from './components/hooks/useTelegram';
-import Header from './components/Header/Header';
+import { useEffect } from 'react';
+import { useTelegram } from './hooks/useTelegram';
+import {Route, Routes} from 'react-router-dom';
+import Profile from './pages/Profile/Profile';
+import Clicker from './pages/Clicker/Clicker';
+
 
 function App() {
   const {tg} = useTelegram();
@@ -16,8 +18,10 @@ function App() {
 
   return (
     <div className="App">
-      <Header />
-      <ClickerGame />
+      <Routes>
+        <Route index element={<Profile/>} />
+        <Route path={'clicker'} element={<Clicker />}></Route>
+      </Routes>
     </div>
   );
 }
