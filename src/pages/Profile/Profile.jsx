@@ -6,7 +6,7 @@ import { faStar, faTicket, faUser } from '@fortawesome/free-solid-svg-icons';
 import { useTelegram } from '../../hooks/useTelegram';
 
 const Profile = () => {
-    const {user} = { useTelegram }
+    const {user} = useTelegram();
     const iconTasks = faTicket;
     const iconTap = faStar;
     const iconProfile = faUser;
@@ -15,8 +15,8 @@ const Profile = () => {
         <div className={classes.profileWrapper}>
             <div className={classes.content}>
                 <div className={classes.userInfo}>
-                    <p className={classes.id}>{user?.id}</p>
-                    <p>{user?.username}</p>
+                    <p className={classes.id}>{user?.username}</p>
+                    <p>{    user?.username}</p>
                     <p className={classes.mt}>баланс: 40000</p>
                 </div>
                 <div className={classes.btnOptions}>
