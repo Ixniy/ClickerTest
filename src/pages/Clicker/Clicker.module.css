@@ -2,11 +2,11 @@
 
 /* Block dragging */
 
-img {
-    -webkit-user-drag: none;
-    -khtml-user-drag: none;
-    -moz-user-drag: none;
-    -o-user-drag: none;
+img, button {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 }
 
 
@@ -67,15 +67,10 @@ img {
     height: 250px;
     justify-self: center;
     align-self: center;
-    user-select: none;
-    -webkit-user-select: none;
-    outline: none;
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 
 
 .actionBtn {
-    user-select: none;
     background: transparent;
     border: none;
     width: 300px;
