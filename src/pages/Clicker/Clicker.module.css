@@ -78,7 +78,7 @@ img {
     height: 300px;
     transform: scale(1);
 
-    transition: all .1s ease;
+    transition: all .05s ease;
 }
 
 .actionBtn:active {
