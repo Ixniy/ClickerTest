@@ -74,6 +74,13 @@ img, button {
     border: none;
     width: 300px;
     height: 300px;
+    transform: scale(1);
+
+    transition: all .1s ease;
+}
+
+.actionBtn:active {
+    transform: scale(1.03);
 }
 
 .actionCount {
