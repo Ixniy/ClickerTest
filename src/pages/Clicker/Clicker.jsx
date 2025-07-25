@@ -4,6 +4,7 @@ import wrappers from "../PagesStyles.module.css";
 import BottomNav from '../../components/layout/BottomNav/BottomNav';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
+import ClickerStar from '../../assets/images/ClickerStar.png';
 
 const Clicker = () => {
   return (
@@ -18,9 +19,7 @@ const Clicker = () => {
           <span>2,005</span>
         </div>
         <div className={classes.actionTap}>
-          <button>
-            <i></i>
-          </button>
+          <img className={classes.star} src={ClickerStar} alt='clicker star' />
         </div>
         <div className={classes.actionStamina}>
           <i></i>

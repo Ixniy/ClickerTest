@@ -10,3 +10,9 @@
     background-position: center;
     background-attachment: fixed;
 }
+
+.star {
+    display: block;
+    width: 250px;
+    height: 250px;
+}
