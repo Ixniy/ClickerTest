@@ -9,6 +9,10 @@ img, button {
     -ms-user-select: none;
 }
 
+img {
+    pointer-events: none;
+}
+
 /*  */
 
 
@@ -80,7 +84,7 @@ img, button {
 }
 
 .actionBtn:active {
-    transform: scale(1.03);
+    transform: scale(1.1);
 }
 
 .actionCount {
