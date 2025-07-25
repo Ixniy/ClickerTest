@@ -3,10 +3,8 @@
 /* Block dragging */
 
 img, button {
-    user-select: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
 img {
