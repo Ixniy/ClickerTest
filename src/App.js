@@ -19,8 +19,8 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route index element={<Profile/>} />
-        <Route path={'clicker'} element={<Clicker />}></Route>
+        <Route path={'profile'} element={<Profile/>} />
+        <Route index element={<Clicker />}></Route>
       </Routes>
     </div>
   );

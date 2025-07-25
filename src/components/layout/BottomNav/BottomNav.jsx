@@ -12,8 +12,8 @@ const BottomNav = () => {
     return (
         <nav className={classes.navigation}>
             <RouteButton icon = {iconTasks} link = {'/tasks'} text={'TASKS'}/>
-            <RouteButton icon = {iconTap} link = {'/clicker'} text={'TAP'}/>
-            <RouteButton icon = {iconProfile} link = {'/'} text={'PROFILE'}/>
+            <RouteButton icon = {iconTap} link = {'/'} text={'TAP'}/>
+            <RouteButton icon = {iconProfile} link = {'/profile'} text={'PROFILE'}/>
         </nav>
     )
 }
