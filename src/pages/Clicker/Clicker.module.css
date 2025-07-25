@@ -80,7 +80,7 @@ img {
     transition: all .05s ease;
 }
 
-.actionBtn:active {
+.pressed {
     transform: scale(1.1);
 }
 

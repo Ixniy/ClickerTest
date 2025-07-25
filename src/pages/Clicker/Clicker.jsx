@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import classes from './Clicker.module.css';
 import BottomNav from '../../components/layout/BottomNav/BottomNav';
 import ClickerStar from '../../assets/images/ClickerStar.png';
@@ -28,7 +28,7 @@ const Clicker = () => {
 
         <div className={classes.centerSection}>
           <div className={classes.actionTap}>
-              <button className={classes.actionBtn} 
+              <button className={`${classes.actionBtn} ${isPressed ? classes.pressed : ''}`} 
               onTouchStart={handlePressStart}
               onTouchEnd={handlePressEnd}
             >
