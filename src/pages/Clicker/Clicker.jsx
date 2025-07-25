@@ -7,7 +7,7 @@ import Light from '../../assets/images/Light.png';
 
 const Clicker = () => {
   return (
-    <div className={`${wrappers.Wrapper} ${classes.clickerBackground}`}>
+    <div className= {classes.clickerBackground}>
       <div className={wrappers.content}>
         <div className={classes.actionCount}>
           <img className={classes.starInfo} src={ClickerStar} alt='count star'/>
@@ -18,7 +18,8 @@ const Clicker = () => {
             <img className={classes.star} src={ClickerStar} alt='clicker star'/>
           </button>
         </div>
-        <div className={classes.staminaProgressContainer}>
+      </div>
+      <div className={classes.staminaProgressContainer}>
           <div className={classes.actionStamina}>
             <div className={classes.staminaWrapper}>
               <img className={classes.light} src={Light} alt='light'/>
@@ -33,7 +34,6 @@ const Clicker = () => {
             />
           </div>
         </div>
-      </div>
       <BottomNav />
     </div>
   )
