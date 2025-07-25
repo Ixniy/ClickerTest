@@ -1,5 +1,18 @@
 @import url('../../assets//fonts/fontbenzin.css');
 
+/* Block dragging */
+
+img {
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+}
+
+
+/*  */
+
+
 .clickerBackground {
     display: flex;
     flex: 1;
