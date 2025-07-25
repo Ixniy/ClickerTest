@@ -18,16 +18,20 @@ const Clicker = () => {
             <img className={classes.star} src={ClickerStar} alt='clicker star'/>
           </button>
         </div>
-        <div className={classes.actionStamina}>
-          <div className={classes.staminaWrapper}>
-            <img className={classes.light} src={Light} alt='light'/>
-            <span className={classes.stamina}>2000 / 2000</span>
+        <div className={classes.staminaProgressContainer}>
+          <div className={classes.actionStamina}>
+            <div className={classes.staminaWrapper}>
+              <img className={classes.light} src={Light} alt='light'/>
+              <span className={classes.stamina}>2000 / 2000</span>
+            </div>
           </div>
-          <progress 
-            value={100}
-            max={100}
-            className={classes.staminaBar}
-          />
+          <div className={classes.progressBar}>
+            <progress 
+              value={100}
+              max={100}
+              className={classes.staminaBar}
+            />
+          </div>
         </div>
       </div>
       <BottomNav />
