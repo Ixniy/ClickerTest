@@ -1,18 +1,61 @@
-.actionCount {
-    display: flex;
-    justify-content: center;
-    font-size: 40px;
-}
+@import url('../../assets//fonts/fontbenzin.css');
 
 .clickerBackground {
     background: url('../../assets/images/backgrounds/Clickerbg.png') no-repeat center;
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
+    font-family: 'Benzin', sans-serif;
+}
+
+.starInfo {
+    display: block;
+    width: 35px;
+    height: 35px;
+    color: #fff;
 }
 
 .star {
     display: block;
-    width: 250px;
-    height: 250px;
+    width: 300px;
+    height: 300px;
 }
+
+.actionBtn {
+    background: transparent;
+    border: none;
+}
+
+.actionCount {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    font-size: 50px;
+    margin-bottom: 10px;
+}
+
+.actionStamina {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.staminaWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.stamina {
+    font-size: 12px;
+}
+
+
+.light {
+    display: block;
+    height: 20px;
+    width: 15px;
+}
+

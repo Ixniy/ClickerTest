@@ -13,6 +13,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 45px;
+    color: #fff;
+    gap: 15px;
     flex: 1;
 }

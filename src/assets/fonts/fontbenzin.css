@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'Benzin';
+    src: local('Benzin Medium'), local('Benzin-Medium'),
+        url('Benzin-Medium.woff2') format('woff2'),
+        url('Benzin-Medium.woff') format('woff'),
+        url('Benzin-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+  }
