@@ -27,9 +27,11 @@ const Clicker = () => {
           </div>
         </div>
         <div className={classes.staminaProgressContainer}>
-            <div className={classes.progressBar}>
-              <progress value={100} max={100} className={classes.staminaBar} />
-            </div>
+          <div className={classes.rankContainer}>
+            <span className={classes.rank}>bronze 1</span>
+            <span className={classes.lvl}>lvl 1</span>
+          </div>
+          <progress value={600} max={600} className={classes.staminaBar} />
           </div>
       </div>
       <BottomNav />

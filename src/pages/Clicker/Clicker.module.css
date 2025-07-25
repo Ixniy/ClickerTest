@@ -25,12 +25,12 @@
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
+    width: 100%;
 }
 
 .topSection {
     display: flex;
     justify-content: center;
-    margin-top: 50px;
 }
 
 .centerSection {
@@ -100,10 +100,30 @@
 .staminaProgressContainer {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     gap: 10px;
     width: 100%;
     margin-bottom: 50px;
+}
+
+.rankContainer {
+    display: flex;
+    justify-content: space-between;
+    width: 88%;
+}
+
+.staminaBar {
+    width: 90%;
+    height: 20px;
+    border-radius: 30px;
+    overflow: hidden; 
+    background-color: rgba(255, 255, 255, 0.2); 
+    border: 3px solid #33221e; 
+}
+
+.staminaBar::-webkit-progress-value {
+  background-color: #a8630b; /* Золотой цвет */
 }
 
 
