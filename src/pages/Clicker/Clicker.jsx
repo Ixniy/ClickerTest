@@ -6,9 +6,14 @@ import Light from '../../assets/images/Light.png';
 // import { useTelegram } from '../../hooks/useTelegram';
 
 const Clicker = () => {
+  const [isPressed, setIsPressed] = useState(false);
 
-  const handleTap = (e) => {
-    e.preventDefault();
+  const handlePressStart = () => {
+    setIsPressed(true);
+  }
+
+  const handlePressEnd = () => {
+    setIsPressed(false);
   }
 
   return (
@@ -23,7 +28,10 @@ const Clicker = () => {
 
         <div className={classes.centerSection}>
           <div className={classes.actionTap}>
-            <button className={classes.actionBtn} onClick={handleTap}>
+              <button className={classes.actionBtn} 
+              onTouchStart={handlePressStart}
+              onTouchEnd={handlePressEnd}
+            >
               <img className={classes.star} src={ClickerStar} alt='clicker star' draggable="false"/>
             </button>
             <div className={classes.staminaWrapper}>
