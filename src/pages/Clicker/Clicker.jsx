@@ -6,7 +6,11 @@ import Light from '../../assets/images/Light.png';
 // import { useTelegram } from '../../hooks/useTelegram';
 
 const Clicker = () => {
-  // const {tg} = useTelegram();
+
+  const handleTap = (e) => {
+    e.preventDefault();
+  }
+
   return (
     <div className= {classes.clickerBackground}>
       <div className={classes.content}>
@@ -19,7 +23,7 @@ const Clicker = () => {
 
         <div className={classes.centerSection}>
           <div className={classes.actionTap}>
-            <button className={classes.actionBtn}>
+            <button className={classes.actionBtn} onClick={handleTap}>
               <img className={classes.star} src={ClickerStar} alt='clicker star' draggable="false"/>
             </button>
             <div className={classes.staminaWrapper}>
