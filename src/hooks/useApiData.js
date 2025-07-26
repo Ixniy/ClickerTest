@@ -1,27 +1,19 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import { fetchApiData } from '../services/FetchApiData';
 
-
-export function useApiData() {
+export function useApiData(str) {
     const [data, setData] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
 
     useEffect(() => {
         const loadData = async () => {
-            try {
-                const result = await fetchApiData();
-                setData(result);
-            } catch (err) {
-                setError(err.message);
-            } finally {
-                setLoading(false);
-            }
+            const result = await fetchApiData(str);
+            setData(result);
         };
 
         loadData();
-    }, []);
+    }, [str]);
 
-    return {data, loading, error}
+
+    return data;
 
 }
