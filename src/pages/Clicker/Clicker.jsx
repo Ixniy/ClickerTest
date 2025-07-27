@@ -8,13 +8,13 @@ import Light from '../../assets/images/Light.png';
 
 const Clicker = () => {
   const data = useApiData('/api/levels/');
-  const dataDict = data.data[0];
-
+  let dataDict = null;
   const [energy, setEnergy] = useState(0);  
   const [stars, setStars] = useState(0);
   const [isPressed, setIsPressed] = useState(false);
   const isLoading = !data;
   if (!isLoading) {
+    dataDict = data.data[0];
     console.log(data.data);
   }
 
