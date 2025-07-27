@@ -8,41 +8,41 @@ import Light from '../../assets/images/Light.png';
 
 const Clicker = () => {
   const data = useApiData('/api/levels/');
-  let dataDict = null;
+  let dataDict;
+  if (data) {
+    dataDict = data.data[0];
+  }
+
   const [energy, setEnergy] = useState(0);  
   const [stars, setStars] = useState(0);
   const [isPressed, setIsPressed] = useState(false);
+
   const isLoading = !data;
-  if (!isLoading) {
-    dataDict = data.data[0];
-    console.log(data.data);
+  const [initialized, setInitialized] = useState(false);
+
+
+  useEffect(() => {
+    if (data && !initialized) {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+      setEnergy(dataDict.click_capacity);
+      setInitialized(true);
   }
+  }, [data, dataDict.click_capacity, initialized])
 
   const handlePressStart = () => {
     if (isLoading || energy === 0) return;
     setIsPressed(true);
     setStars(stars + dataDict.click_power);
-    setEnergy(energy - 1);
+    setEnergy(prev => prev - 1);
   }
 
   const handlePressEnd = () => {
     setIsPressed(false);
   }
 
-  useEffect(() => {
-    if (isLoading || stars > dataDict.click_capacity || !(energy < dataDict.click_capacity)) return;
-    if (energy + dataDict.click_regeneration > dataDict.click_capacity) {
-      setEnergy((prev) => prev + dataDict.click_regeneration - 1);
-    }
-    const intervalid = setInterval(() => {
-      setEnergy((prev) => prev + dataDict.click_regeneration);
-    }, 1000)
-    return () => {
-      clearInterval(intervalid);
-    }
-  }, [stars, isLoading, dataDict, energy])
-
-  return (
+  
+  if (dataDict) {
+    return (
     <div className= {classes.clickerBackground}>
       <div className={classes.content}>
         <div className={classes.topSection}>
@@ -82,11 +82,14 @@ const Clicker = () => {
             )}
           </div>
           <progress value={600} max={600} className={classes.staminaBar} />
-          </div>
+        </div>
       </div>
       <BottomNav />
     </div>
   )
+  }
+
+
 }
 
 export default Clicker
