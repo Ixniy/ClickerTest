@@ -27,7 +27,7 @@ const Clicker = () => {
       setEnergy(dataDict.click_capacity);
       setInitialized(true);
   }
-  }, [data, dataDict.click_capacity, initialized])
+  }, [data, dataDict?.click_capacity, initialized])
 
   const handlePressStart = () => {
     if (isLoading || energy === 0) return;
