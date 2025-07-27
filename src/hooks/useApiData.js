@@ -13,7 +13,6 @@ export function useApiData(str) {
         loadData();
     }, [str]);
 
-
     return data;
 
 }

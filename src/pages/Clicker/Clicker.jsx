@@ -8,21 +8,39 @@ import Light from '../../assets/images/Light.png';
 
 const Clicker = () => {
   const data = useApiData('/api/levels/');
+  const dataDict = data.data[0];
+
   const [energy, setEnergy] = useState(0);  
   const [stars, setStars] = useState(0);
   const [isPressed, setIsPressed] = useState(false);
-
   const isLoading = !data;
+  if (!isLoading) {
+    console.log(data.data);
+  }
 
   const handlePressStart = () => {
-    if (isLoading) return;
+    if (isLoading || energy === 0) return;
     setIsPressed(true);
-    setStars(stars + data.data[0].click_power);
+    setStars(stars + dataDict.click_power);
+    setEnergy(energy - 1);
   }
 
   const handlePressEnd = () => {
     setIsPressed(false);
   }
+
+  useEffect(() => {
+    if (isLoading || stars > dataDict.click_capacity || !(energy < dataDict.click_capacity)) return;
+    if (energy + dataDict.click_regeneration > dataDict.click_capacity) {
+      setEnergy((prev) => prev + dataDict.click_regeneration - 1);
+    }
+    const intervalid = setInterval(() => {
+      setEnergy((prev) => prev + dataDict.click_regeneration);
+    }, 1000)
+    return () => {
+      clearInterval(intervalid);
+    }
+  }, [stars, isLoading, dataDict, energy])
 
   return (
     <div className= {classes.clickerBackground}>
@@ -49,7 +67,7 @@ const Clicker = () => {
               {isLoading ? (
                 <span>Loading...</span>
               ) : (
-                <span className={classes.stamina}>{energy} / {data.data[0].click_capacity}</span>
+                <span className={classes.stamina}>{energy} / {dataDict.click_capacity}</span>
               )}
             </div>
           </div>
@@ -60,7 +78,7 @@ const Clicker = () => {
             {isLoading ? (
               <span>Loading...</span>
             ) : (
-              <span className={classes.lvl}>lvl {data.data[0].level}</span>
+              <span className={classes.lvl}>lvl {dataDict.level}</span>
             )}
           </div>
           <progress value={600} max={600} className={classes.staminaBar} />
