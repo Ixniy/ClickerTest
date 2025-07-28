@@ -1,5 +1,5 @@
 import axios from 'axios';
-const API_URL = 'https://solid-fishstick-j649vqq6wxw2q7jq-80.app.github.dev/';
+const API_URL = 'https://solid-fishstick-j649vqq6wxw2q7jq-80.app.github.dev';
 
 export const putData = async (endpoint, postData) => {
   try {
