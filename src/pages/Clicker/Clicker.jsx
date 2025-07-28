@@ -35,13 +35,15 @@ const Clicker = () => {
   }, [user, data, postData])
 
   const isLoading = !data;
-  const dataDict = data ? data.data[0] : null;
+  let dataDict;
 
   useEffect(() => {
     if (data && !initialized) {
       setEnergy(dataDict.energy);
       setClickedStars(dataDict.stars);
       setLevel(dataDict.level);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      dataDict = data.data[0];
       setInitialized(true);
     }
   }, [data, initialized, dataDict])
