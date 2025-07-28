@@ -26,7 +26,7 @@ const Clicker = () => {
         id: user?.id,
       })
     }
-  }, [isInitialized, userData]);
+  }, [isInitialized, userData, user?.id]);
 
 
   const handlePressStart = () => {  
