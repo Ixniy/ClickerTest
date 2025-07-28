@@ -91,13 +91,13 @@ const Clicker = () => {
         stars: stars + 1,
         level: level + 1,
       })
-      setLevel(level + 1);
+      setLevel(prev => prev + 1);
       userData.data.stars += 1;
       userData.data.level += 1;
     }
 
     setIsPressed(true);
-    setStars(Number((stars + 0.0004).toFixed(8)));
+    setStars(prev => prev + Number((stars + 0.0004).toFixed(8)));
     setEnergy(prev => prev - 1);
     console.log(setEnergy);
     const pizdecData = () => (setInterval(() => {
