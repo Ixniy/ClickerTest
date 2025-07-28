@@ -9,7 +9,9 @@ import { useTelegram } from '../../hooks/useTelegram';
 
 const Clicker = () => {
   const {user} = useTelegram();
-  console.log(user)
+  postData('/api/users/', {
+    id: user?.id,
+  });
   const userData = useApiData(`/api/users/${user?.id}`);
 
   const [stars, setStars] = useState(0);
@@ -23,9 +25,6 @@ const Clicker = () => {
       setEnergy(userData.data.energy);
       setStars(userData.data.stars);
       setIsInitialized(true);
-      postData('/api/users/', {
-        id: user?.id,
-      })
     }
   }, [isInitialized, userData, user?.id]);
 
