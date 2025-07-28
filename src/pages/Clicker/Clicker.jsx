@@ -9,6 +9,7 @@ import { useTelegram } from '../../hooks/useTelegram';
 
 const Clicker = () => {
   const {user} = useTelegram();
+  console.log(user)
   const userData = useApiData(`/api/users/${user?.id}`);
 
   const [stars, setStars] = useState(0);
