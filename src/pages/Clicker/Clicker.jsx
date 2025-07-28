@@ -99,6 +99,7 @@ const Clicker = () => {
     setIsPressed(true);
     setStars(Number((stars + 0.0004).toFixed(8)));
     setEnergy(prev => prev - 1);
+    console.log(setEnergy);
     const pizdecData = () => (setInterval(() => {
       putData(`/api/users/${user?.id}/`, {
         id: `${user?.id}`,
@@ -143,7 +144,7 @@ const Clicker = () => {
               {0 ? (
                 <span>Loading...</span>
               ) : (
-                <span className={classes.stamina}>{userData.data.energy} / 500</span>
+                <span className={classes.stamina}>{energy} / 500</span>
               )}
             </div>
           </div>
