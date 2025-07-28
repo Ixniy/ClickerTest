@@ -39,11 +39,11 @@ const Clicker = () => {
 
   useEffect(() => {
     if (data && !initialized) {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      dataDict = data.data[0];
       setEnergy(dataDict.energy);
       setClickedStars(dataDict.stars);
       setLevel(dataDict.level);
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      dataDict = data.data[0];
       setInitialized(true);
     }
   }, [data, initialized, dataDict])

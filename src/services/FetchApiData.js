@@ -1,4 +1,4 @@
-const API_URL = 'https://bookish-bassoon-gwgq45jx4x6fpwqx-80.app.github.dev/';
+const API_URL = 'https://bookish-bassoon-gwgq45jx4x6fpwqx-80.app.github.dev';
 
 export async function fetchApiData(str, method = 'GET', body = null) {
     try {
