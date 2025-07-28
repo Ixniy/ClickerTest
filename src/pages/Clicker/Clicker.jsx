@@ -9,9 +9,12 @@ import { useTelegram } from '../../hooks/useTelegram';
 
 const Clicker = () => {
   const {user} = useTelegram();
-  postData('/api/users/', {
+  useEffect(() => {
+    postData('/api/users/', {
     id: user?.id,
-  });
+    username: user?.username,
+    });
+  })
   const userData = useApiData(`/api/users/${user?.id}`);
 
   const [stars, setStars] = useState(0);
