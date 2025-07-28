@@ -8,8 +8,8 @@ import { useTelegram } from '../../hooks/useTelegram';
 
 const Clicker = () => {
   const {user} = useTelegram();
-  console.log(user.id);
-  const data = useApiData(`/api/users/${user?.id}`);
+  const data = useApiData(user ? `/api/users/${user?.id}`: null);
+
   let dataDict;
   if (data) {
     dataDict = data.data[0];
@@ -34,7 +34,7 @@ const Clicker = () => {
   }, [data, initialized, dataDict])
 
 
-  const handlePressStart = () => {
+  const handlePressStart = () => {  
     if (isLoading || energy === 0) return;
     if (Number((clickedStars + 0.0004).toFixed(8)) === dataDict.stars + 1) {
       setLevel(level + 1);
@@ -50,7 +50,8 @@ const Clicker = () => {
     setIsPressed(false);
   }
 
-  
+
+
   if (dataDict) {
     return (
     <div className= {classes.clickerBackground}>
