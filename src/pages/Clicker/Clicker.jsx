@@ -107,7 +107,6 @@ const Clicker = () => {
         energy: energy - 1,
         level: level,
       })
-      console.log(123);
     }, 1000));
     pizdecData();
   };

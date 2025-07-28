@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const API_URL = 'https://silver-halibut-r9rwqpp95rrf5j46-80.app.github.dev';
+const API_URL = 'https://solid-fishstick-j649vqq6wxw2q7jq-80.app.github.dev/';
 
 const useFetchData = (endpoint) => {
   const [data, setData] = useState(null);
