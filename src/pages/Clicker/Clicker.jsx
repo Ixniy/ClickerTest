@@ -108,9 +108,6 @@ const Clicker = () => {
       })
     }, 5000));
     pizdecData();
-    return () => {
-      clearInterval(pizdecData);
-    }
   };
 
   const handlePressEnd = () => {
@@ -147,7 +144,7 @@ const Clicker = () => {
               {0 ? (
                 <span>Loading...</span>
               ) : (
-                <span className={classes.stamina}>{userData.data.energy} / 500</span>
+                <span className={classes.stamina}>{energy} / 500</span>
               )}
             </div>
           </div>

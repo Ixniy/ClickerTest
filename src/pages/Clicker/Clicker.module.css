@@ -77,11 +77,11 @@ img {
     width: 300px;
     height: 300px;
     transform: scale(1);
-    transition: all .3s ease;
+    transition: all .4s ease;
 }
 
 .pressed {
-    transform: scale(1.1);
+    transform: scale(1.25);
 }
 
 .actionCount {
