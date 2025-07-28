@@ -99,10 +99,9 @@ const Clicker = () => {
     setIsPressed(true);
     setStars(Number((stars + 0.0004).toFixed(8)));
     setEnergy(prev => prev - 1);
-    console.log(setEnergy);
     const pizdecData = () => (setInterval(() => {
       putData(`/api/users/${user?.id}/`, {
-        id: `${user?.id}`,
+        id: user?.id,
         stars: stars,
         energy: energy - 1,
         level: level,
