@@ -4,21 +4,22 @@ import BottomNav from '../../components/layout/BottomNav/BottomNav';
 import { useApiData } from '../../hooks/useApiData';
 import ClickerStar from '../../assets/images/ClickerStar.png';
 import Light from '../../assets/images/Light.png';
-// import { useTelegram } from '../../hooks/useTelegram';
+import { useTelegram } from '../../hooks/useTelegram';
 
 const Clicker = () => {
-  const data = useApiData('/api/users/');
-  console.log(data);
+  const {user} = useTelegram();
+  console.log(user.id);
+  const data = useApiData(`/api/users/${user?.id}`);
   let dataDict;
   if (data) {
     dataDict = data.data[0];
   }
   const isLoading = !data;
-
+  
   const [energy, setEnergy] = useState(0);  
   const [clickedStars, setClickedStars] = useState(0);
-  const [clicks, setClicks] = useState(0);
   const [isPressed, setIsPressed] = useState(false);
+  const [level, setLevel] = useState(0);
 
   const [initialized, setInitialized] = useState(false);
 
@@ -27,13 +28,19 @@ const Clicker = () => {
     if (data && !initialized) {
       setEnergy(dataDict.energy);
       setClickedStars(dataDict.stars);
-      setClicks(clicks + 1);
+      setLevel(dataDict.level);
       setInitialized(true);
-  }
-  }, [data, initialized, dataDict, clicks])
+    }
+  }, [data, initialized, dataDict])
+
 
   const handlePressStart = () => {
     if (isLoading || energy === 0) return;
+    if (Number((clickedStars + 0.0004).toFixed(8)) === dataDict.stars + 1) {
+      setLevel(level + 1);
+      dataDict.stars += 1;
+    }
+
     setIsPressed(true);
     setClickedStars(Number((clickedStars + 0.0004).toFixed(8)));
     setEnergy(prev => prev - 1);
@@ -81,7 +88,7 @@ const Clicker = () => {
             {isLoading ? (
               <span>Loading...</span>
             ) : (
-              <span className={classes.lvl}>lvl {dataDict.level}</span>
+              <span className={classes.lvl}>lvl {level}</span>
             )}
           </div>
           <progress value={600} max={600} className={classes.staminaBar} />
