@@ -1,6 +1,10 @@
 .routeBtn {
-    width: 50px;
-    height: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 70px;
+    height: 70px;
     border: none;
     border-radius: 8px;
     background-color: #7d6444;
@@ -8,11 +12,11 @@
 
 .image {
     display: block;
-    width: 20px;
-    height: 20px;
+    width: 45px;
+    height: 45px;
 }
 
 .text {
     margin-top: 4px;
-    font-size: 9px;
+    font-size: 10px;
 }

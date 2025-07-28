@@ -1,74 +1,56 @@
 import {useState, useEffect } from 'react';
 import classes from './Clicker.module.css';
 import BottomNav from '../../components/layout/BottomNav/BottomNav';
-import { useApiData } from '../../hooks/useApiData';
-import { usePostApiData } from '../../hooks/usePostApiData';
 import ClickerStar from '../../assets/images/ClickerStar.png';
 import Light from '../../assets/images/Light.png';
+import useApiData from '../../hooks/useApiData';
+import {putData} from '../../services/putFetchData';
 import { useTelegram } from '../../hooks/useTelegram';
 
 const Clicker = () => {
   const {user} = useTelegram();
-  const {postData, loading: postLoading, error: postError} = usePostApiData();
-  const data = useApiData(user ? `/api/users/`: null);
+  const userData = useApiData(`/api/users/${user?.id}`);
 
-  const [energy, setEnergy] = useState(0);  
-  const [clickedStars, setClickedStars] = useState(0);
-  const [isPressed, setIsPressed] = useState(false);
+  const [stars, setStars] = useState(0);
+  const [energy, setEnergy] = useState(0);
   const [level, setLevel] = useState(0);
-  const [initialized, setInitialized] = useState(false);
+  const [isPressed, setIsPressed] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
-    if (!user || !user.id || data) return;
-
-    const createUser = async () => {
-      try {
-        await postData('/api/users', {
-          id: user.id
-        })
-      } catch (err) {
-        console.error('Error:', err.message);
-      }
+    if (userData && !isInitialized && userData.data) {
+      setEnergy(userData.data.energy);
+      setStars(userData.data.stars);
+      setIsInitialized(true);
     }
-
-    createUser();
-  }, [user, data, postData])
-
-  const isLoading = !data;
-  let dataDict;
-
-  useEffect(() => {
-    if (data && !initialized) {
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      dataDict = data.data[0];
-      setEnergy(dataDict.energy);
-      setClickedStars(dataDict.stars);
-      setLevel(dataDict.level);
-      setInitialized(true);
-    }
-  }, [data, initialized, dataDict])
-
-  if (!user) return <div>Loading Telegram user data...</div>;
-  if (postError) return <div>Error creating user: {postError}</div>;
-  if (!data && postLoading) return <div>Creating user...</div>;
-  if (!data) return <div>Loading user data...</div>;
-
-  
-
-
+  }, [isInitialized, userData]);
 
 
   const handlePressStart = () => {  
-    if (isLoading || energy === 0) return;
-    if (Number((clickedStars + 0.0004).toFixed(8)) === dataDict.stars + 1) {
+    if (energy === 0) return;
+    if (Number((stars + 0.2).toFixed(8)) === userData.data.stars + 1) {
+      putData('/api/users/12345/', {
+        id: '12345',
+        stars: stars,
+        energy: energy,
+      })
       setLevel(level + 1);
-      dataDict.stars += 1;
+      userData.data.stars += 1;
+      userData.data.level += 1;
     }
 
     setIsPressed(true);
-    setClickedStars(Number((clickedStars + 0.0004).toFixed(8)));
+    setStars(Number((stars + 0.2).toFixed(8)));
     setEnergy(prev => prev - 1);
-  }
+    const pizdecData = () => (setInterval(() => {
+      putData(`/api/users/${user?.id}/`, {
+        id: `${user?.id}`,
+        stars: stars,
+        energy: energy,
+      })
+    }, 1000));
+    pizdecData();
+  };
 
   const handlePressEnd = () => {
     setIsPressed(false);
@@ -76,14 +58,14 @@ const Clicker = () => {
 
 
 
-  if (dataDict) {
+  if (userData?.data) {
     return (
     <div className= {classes.clickerBackground}>
       <div className={classes.content}>
         <div className={classes.topSection}>
           <div className={classes.actionCount}>
             <img className={classes.starInfo} src={ClickerStar} alt='count star' draggable="false"/>
-            <span className={classes.starsInfo}>{clickedStars}</span>
+            <span className={classes.starsInfo}>{stars}</span>
           </div>
         </div>
 
@@ -93,27 +75,26 @@ const Clicker = () => {
               onTouchStart={handlePressStart}
               onTouchEnd={handlePressEnd}
               onClick={handlePressStart}
-              disabled={isLoading}
             >
               <img className={classes.star} src={ClickerStar} alt='clicker star' draggable="false"/>
             </button>
             <div className={classes.staminaWrapper}>
               <img className={classes.light} src={Light} alt='light' draggable="false"/>
-              {isLoading ? (
+              {0 ? (
                 <span>Loading...</span>
               ) : (
-                <span className={classes.stamina}>{energy} / {dataDict.energy}</span>
+                <span className={classes.stamina}>{energy} / 500</span>
               )}
             </div>
           </div>
         </div>
         <div className={classes.staminaProgressContainer}>
           <div className={classes.rankContainer}>
-            <span className={classes.rank}>{dataDict && dataDict.rank}</span>
-            {isLoading ? (
+            <span className={classes.rank}>{userData && userData.data.rank}</span>
+            {0 ? (
               <span>Loading...</span>
             ) : (
-              <span className={classes.lvl}>lvl {level}</span>
+              <span className={classes.lvl}>lvl {userData.data.level}</span>
             )}
           </div>
           <progress value={600} max={600} className={classes.staminaBar} />

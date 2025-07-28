@@ -7,7 +7,7 @@ const RouteButton = ({text, link, src}) => {
 
     return (
         <button onClick={() => navigate(`${link}`)} className={classes.routeBtn}>
-            <img className={classes.image} src={src} alt='SASHA SAVIN'/>
+            <img className={classes.image} src={src} alt='button pic'/>
             <p className={classes.text}>{text}</p>
         </button>
     )

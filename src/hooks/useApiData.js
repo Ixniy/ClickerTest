@@ -1,25 +1,29 @@
-import {useEffect, useState} from 'react';
-import { fetchApiData } from '../services/FetchApiData';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
-export function useApiData(str) {
-    const [data, setData] = useState(null);
-    const [error, setError] = useState(null);
+const API_URL = 'https://legendary-garbanzo-rvjg4rq74x9hw54x-80.app.github.dev';
 
-    useEffect(() => {
-        if (!str) return;
-        const loadData = async () => {
-            try {
-                const result = await fetchApiData(str);
-                setData(result);
-            }
-            catch (err) {
-                setError(err.message);
-            }
-        };
+const useFetchData = (endpoint) => {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-        loadData();
-    }, [str]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${API_URL}${endpoint}`);
+        setData(response.data.data[0]);
+      } catch (err) {
+        setError(err.message || 'Error fetching data');
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    return {data, error};
+    fetchData();
+  }, [endpoint]);
 
-}
+  return { data, loading, error };
+};
+
+export default useFetchData

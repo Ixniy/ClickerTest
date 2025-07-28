@@ -8,9 +8,9 @@ const BottomNav = () => {
 
     return (
         <nav className={classes.navigation}>
-            <RouteButton link = {'/tasks'} text={'TASKS'}/>
+            {/* <RouteButton link = {'/tasks'} text={'TASKS'}/> */}
             <RouteButton link = {'/'} text={'TAP'} src={TapBtn}/>
-            <RouteButton link = {'/profile'} text={'PROFILE'}/>
+            {/* <RouteButton link = {'/profile'} text={'PROFILE'}/> */}
         </nav>
     )
 }
