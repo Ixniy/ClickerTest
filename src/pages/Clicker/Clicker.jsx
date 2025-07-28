@@ -4,7 +4,7 @@ import BottomNav from '../../components/layout/BottomNav/BottomNav';
 import ClickerStar from '../../assets/images/ClickerStar.png';
 import Light from '../../assets/images/Light.png';
 import useApiData from '../../hooks/useApiData';
-import {putData} from '../../services/putFetchData';
+import {putData, postData} from '../../services/putFetchData';
 import { useTelegram } from '../../hooks/useTelegram';
 
 const Clicker = () => {
@@ -22,6 +22,9 @@ const Clicker = () => {
       setEnergy(userData.data.energy);
       setStars(userData.data.stars);
       setIsInitialized(true);
+      postData('/api/users/', {
+        id: user?.id,
+      })
     }
   }, [isInitialized, userData]);
 
@@ -30,7 +33,7 @@ const Clicker = () => {
     if (energy === 0) return;
     if (Number((stars + 0.2).toFixed(8)) === userData.data.stars + 1) {
       putData('/api/users/12345/', {
-        id: '12345',
+        id: user?.id,
         stars: stars,
         energy: energy,
       })
