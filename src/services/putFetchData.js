@@ -1,5 +1,5 @@
 import axios from 'axios';
-const API_URL = 'https://legendary-garbanzo-rvjg4rq74x9hw54x-80.app.github.dev';
+const API_URL = 'https://upgraded-fortnight-xqjw597rw99hvgr9-80.app.github.dev';
 
 export const putData = async (endpoint, postData) => {
   try {
