@@ -32,7 +32,7 @@ const Clicker = () => {
   const handlePressStart = () => {  
     if (energy === 0) return;
     if (Number((stars + 0.2).toFixed(8)) === userData.data.stars + 1) {
-      putData('/api/users/12345/', {
+      putData(`/api/users/${user?.id}/`, {
         id: user?.id,
         stars: stars,
         energy: energy,
