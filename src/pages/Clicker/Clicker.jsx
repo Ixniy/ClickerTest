@@ -87,11 +87,12 @@ const Clicker = () => {
 
   const handlePressStart = () => {  
     if (energy === 0) return;
-    if (Number((stars + 0.2).toFixed(8)) === userData.data.stars + 1) {
+    if (Number((stars + 0.0004).toFixed(8)) === userData.data.stars + 1) {
       putData(`/api/users/${user?.id}/`, {
         id: user?.id,
         stars: stars,
         energy: energy,
+        level: level
       })
       setLevel(level + 1);
       userData.data.stars += 1;
@@ -99,15 +100,16 @@ const Clicker = () => {
     }
 
     setIsPressed(true);
-    setStars(Number((stars + 0.2).toFixed(8)));
+    setStars(Number((stars + 0.0004).toFixed(8)));
     setEnergy(prev => prev - 1);
     const pizdecData = () => (setInterval(() => {
       putData(`/api/users/${user?.id}/`, {
         id: `${user?.id}`,
         stars: stars,
         energy: energy,
+        level: level,
       })
-    }, 1000));
+    }, 500));
     pizdecData();
   };
 
