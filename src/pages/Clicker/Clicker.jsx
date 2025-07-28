@@ -2,27 +2,40 @@ import {useState, useEffect } from 'react';
 import classes from './Clicker.module.css';
 import BottomNav from '../../components/layout/BottomNav/BottomNav';
 import { useApiData } from '../../hooks/useApiData';
+import { usePostApiData } from '../../hooks/usePostApiData';
 import ClickerStar from '../../assets/images/ClickerStar.png';
 import Light from '../../assets/images/Light.png';
 import { useTelegram } from '../../hooks/useTelegram';
 
 const Clicker = () => {
   const {user} = useTelegram();
-  const data = useApiData(user ? `/api/users/${user?.id}`: null);
+  const {postData, loading: postLoading, error: postError} = usePostApiData();
+  const data = useApiData(user ? `/api/users/`: null);
 
-  let dataDict;
-  if (data) {
-    dataDict = data.data[0];
-  }
-  const isLoading = !data;
-  
   const [energy, setEnergy] = useState(0);  
   const [clickedStars, setClickedStars] = useState(0);
   const [isPressed, setIsPressed] = useState(false);
   const [level, setLevel] = useState(0);
-
   const [initialized, setInitialized] = useState(false);
 
+  useEffect(() => {
+    if (!user || !user.id || data) return;
+
+    const createUser = async () => {
+      try {
+        await postData('/api/users', {
+          id: user.id
+        })
+      } catch (err) {
+        console.error('Error:', err.message);
+      }
+    }
+
+    createUser();
+  }, [user, data, postData])
+
+  const isLoading = !data;
+  const dataDict = data ? data.data[0] : null;
 
   useEffect(() => {
     if (data && !initialized) {
@@ -32,6 +45,15 @@ const Clicker = () => {
       setInitialized(true);
     }
   }, [data, initialized, dataDict])
+
+  if (!user) return <div>Loading Telegram user data...</div>;
+  if (postError) return <div>Error creating user: {postError}</div>;
+  if (!data && postLoading) return <div>Creating user...</div>;
+  if (!data) return <div>Loading user data...</div>;
+
+  
+
+
 
 
   const handlePressStart = () => {  
