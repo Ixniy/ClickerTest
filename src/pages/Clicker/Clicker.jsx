@@ -14,6 +14,12 @@ const Clicker = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const [stars, setStars] = useState(0);
+  const [energy, setEnergy] = useState(0);
+  const [level, setLevel] = useState(0);
+  const [isPressed, setIsPressed] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -65,14 +71,6 @@ const Clicker = () => {
     }
   }, [user?.id, user?.username]); // Зависимость от ID пользователя
 
-  
-
-  
-  const [stars, setStars] = useState(0);
-  const [energy, setEnergy] = useState(0);
-  const [level, setLevel] = useState(0);
-  const [isPressed, setIsPressed] = useState(false);
-  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
     if (userData && !isInitialized) {
@@ -91,7 +89,6 @@ const Clicker = () => {
       putData(`/api/users/${user?.id}/`, {
         id: user?.id,
         stars: stars + 1,
-        energy: energy,
         level: level + 1,
       })
       setLevel(level + 1);
@@ -106,10 +103,10 @@ const Clicker = () => {
       putData(`/api/users/${user?.id}/`, {
         id: `${user?.id}`,
         stars: stars,
-        energy: energy,
+        energy: energy - 1,
         level: level,
       })
-    }, 100));
+    }, 1000));
     pizdecData();
   };
 
