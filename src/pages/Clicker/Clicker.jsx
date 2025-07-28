@@ -16,7 +16,7 @@ const Clicker = () => {
   axios.get(`https://silver-halibut-r9rwqpp95rrf5j46-80.app.github.dev/api/users/${user?.id}/`)
   .then(response => {
     users = response.data; // Сохраняем данные в переменную
-    console.log('Пользователи:', users);
+    console.log('Пользователи:', users.data, users.data.energy);
   })
   .catch(error => {
     postData('/api/users/', {
@@ -26,8 +26,6 @@ const Clicker = () => {
   });
 
   
-
-
   const [stars, setStars] = useState(0);
   const [energy, setEnergy] = useState(0);
   const [level, setLevel] = useState(0);
