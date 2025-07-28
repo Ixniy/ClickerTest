@@ -90,9 +90,9 @@ const Clicker = () => {
     if (Number((stars + 0.0004).toFixed(8)) === userData.data.stars + 1) {
       putData(`/api/users/${user?.id}/`, {
         id: user?.id,
-        stars: stars,
+        stars: stars + 1,
         energy: energy,
-        level: level
+        level: level + 1,
       })
       setLevel(level + 1);
       userData.data.stars += 1;
@@ -109,7 +109,7 @@ const Clicker = () => {
         energy: energy,
         level: level,
       })
-    }, 500));
+    }, 100));
     pizdecData();
   };
 
