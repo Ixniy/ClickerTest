@@ -16,7 +16,7 @@ const Clicker = () => {
 
   const [stars, setStars] = useState(0);
   const [energy, setEnergy] = useState(0);
-  const [level, setLevel] = useState(0);
+  const [level, setLevel] = useState(1);
   const [isPressed, setIsPressed] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
 
