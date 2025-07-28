@@ -19,7 +19,7 @@ const Clicker = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `https://silver-halibut-r9rwqpp95rrf5j46-80.app.github.dev/api/users/${user?.id}/`
+          `https://solid-fishstick-j649vqq6wxw2q7jq-80.app.github.dev/api/users/${user?.id}/`
         );
         
         // Проверяем структуру ответа
@@ -46,7 +46,7 @@ const Clicker = () => {
     const createUser = async () => {
       try {
         const response = await axios.post(
-          'https://silver-halibut-r9rwqpp95rrf5j46-80.app.github.dev/api/users/',
+          'https://solid-fishstick-j649vqq6wxw2q7jq-80.app.github.dev/api/users/',
           {
             id: user?.id,
             username: user?.username,
