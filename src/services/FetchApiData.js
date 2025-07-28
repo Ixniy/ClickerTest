@@ -1,4 +1,4 @@
-const API_URL = 'https://bug-free-halibut-r474gvjr4wh6pg-80.app.github.dev';
+const API_URL = 'https://redesigned-acorn-gwgq45jxqv4hpq4-80.app.github.dev';
 
 export async function fetchApiData(str) {
     const response = await fetch(API_URL + str);
