@@ -97,7 +97,7 @@ const Clicker = () => {
     }
 
     setIsPressed(true);
-    setStars(prev => prev + Number((stars + 0.0004).toFixed(8)));
+    setStars(Number((stars + 0.0004).toFixed(8)));
     setEnergy(prev => prev - 1);
     console.log(setEnergy);
     const pizdecData = () => (setInterval(() => {
