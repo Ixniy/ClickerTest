@@ -107,6 +107,7 @@ const Clicker = () => {
         energy: energy - 1,
         level: level,
       })
+      console.log(123);
     }, 1000));
     pizdecData();
   };
@@ -136,6 +137,7 @@ const Clicker = () => {
               <button className={`${classes.actionBtn} ${isPressed ? classes.pressed : ''}`} 
               onTouchStart={handlePressStart}
               onTouchEnd={handlePressEnd}
+              onClick={handlePressStart}
             >
               <img className={classes.star} src={ClickerStar} alt='clicker star' draggable="false"/>
             </button>
