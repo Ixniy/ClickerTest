@@ -108,6 +108,9 @@ const Clicker = () => {
       })
     }, 5000));
     pizdecData();
+    return () => {
+      clearInterval(pizdecData);
+    }
   };
 
   const handlePressEnd = () => {
