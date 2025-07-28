@@ -40,7 +40,7 @@ const Clicker = () => {
       setIsInitialized(true);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isInitialized, user?.id]);
+  }, [isInitialized, user?.id, users]);
 
 
   const handlePressStart = () => {  
