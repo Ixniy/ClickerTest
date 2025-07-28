@@ -25,7 +25,7 @@ const Clicker = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `https://solid-fishstick-j649vqq6wxw2q7jq-80.app.github.dev/api/users/${user?.id}/`
+          `https://organic-orbit-pvg94ppvvrjf66wx-80.app.github.dev/api/users/${user?.id}/`
         );
         
         // Проверяем структуру ответа
@@ -52,7 +52,7 @@ const Clicker = () => {
     const createUser = async () => {
       try {
         const response = await axios.post(
-          'https://solid-fishstick-j649vqq6wxw2q7jq-80.app.github.dev/api/users/',
+          'https://organic-orbit-pvg94ppvvrjf66wx-80.app.github.dev/api/users/',
           {
             id: user?.id,
             username: user?.username,
