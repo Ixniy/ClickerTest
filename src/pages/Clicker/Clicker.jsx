@@ -1,90 +1,31 @@
-import {useState, useEffect} from 'react';
+import {useState, useRef} from 'react';
 import classes from './Clicker.module.css';
 import BottomNav from '../../components/layout/BottomNav/BottomNav';
 import ClickerStar from '../../assets/images/ClickerStar.png';
 import Light from '../../assets/images/Light.png';
 import {putData} from '../../services/putFetchData';
 import { useTelegram } from '../../hooks/useTelegram';
-import axios from 'axios';
+import {createStarBursts} from '../../utils/starEffect';
+import { useApiData, updateUserData } from '../../hooks/useApiData';
 
 
 const Clicker = () => {
-  const { user } = useTelegram(); // Предполагаем, что хук useTelegram существует
-  const [userData, setUserData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { user } = useTelegram();
+  const {userData, loading, error} = useApiData(user);
 
   const [stars, setStars] = useState(0);
   const [energy, setEnergy] = useState(0);
   const [level, setLevel] = useState(1);
   const [isPressed, setIsPressed] = useState(false);
-  const [isInitialized, setIsInitialized] = useState(false);
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        setLoading(true);
-        const response = await axios.get(
-          `https://animated-goggles-49x7jg5qgw43qgv7-80.app.github.dev/api/users/${user?.id}/`
-        );
-        
-        // Проверяем структуру ответа
-        if (response.data) {
-          setUserData(response.data);
-          console.log('Данные пользователя:', response.data);
-        } else {
-          // Если пользователь не найден, создаем нового
-          await createUser();
-        }
-      } catch (error) {
-        if (error.response?.status === 404) {
-          // Пользователь не найден - создаем
-          await createUser();
-        } else {
-          setError(error);
-          console.error('Ошибка запроса:', error);
-        }
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    const createUser = async () => {
-      try {
-        const response = await axios.post(
-          'https://animated-goggles-49x7jg5qgw43qgv7-80.app.github.dev/api/users/',
-          {
-            id: user?.id,
-            username: user?.username,
-            // Другие обязательные поля
-          }
-        );
-        setUserData(response.data);
-      } catch (createError) {
-        setError(createError);
-        console.error('Ошибка создания пользователя:', createError);
-      }
-    };
-
-    if (user?.id) {
-      fetchUser();
-    }
-  }, [user?.id, user?.username]); // Зависимость от ID пользователя
+  const [bursts, setBursts] = useState([]);
+  const buttonRef = useRef(null);
 
 
-  useEffect(() => {
-    if (userData && !isInitialized) {
-      setEnergy(userData.data.energy);
-      setStars(userData.data.stars);
-      console.log(userData.status);
-      setIsInitialized(true);
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isInitialized, user?.id, userData]);
 
-
-  const handlePressStart = () => {  
+  const handlePressStart = (e) => {  
     if (energy === 0) return;
+
+    setBursts(createStarBursts(buttonRef.current, 4));
 
     const newStars = Number((stars + 0.0004).toFixed(8));
     const newEnergy = energy - 1;
@@ -100,14 +41,10 @@ const Clicker = () => {
       })
       setLevel(newLevel);
 
-      setUserData(prev => ({
-        ...prev,
-        data: {
-          ...prev.data,
-          stars: newStars,
-          level: newLevel
-        }
-      }));
+      updateUserData({
+        stars: newStars,
+        level: newLevel,
+      })
     }
 
     setIsPressed(true);
@@ -147,12 +84,26 @@ const Clicker = () => {
 
         <div className={classes.centerSection}>
           <div className={classes.actionTap}>
-              <button className={`${classes.actionBtn} ${isPressed ? classes.pressed : ''}`} 
-              onTouchStart={handlePressStart}
-              onTouchEnd={handlePressEnd}
-            >
+              <button ref={buttonRef} className={`${classes.actionBtn} ${isPressed ? classes.pressed : ''}`} 
+                onTouchStart={handlePressStart}
+                onTouchEnd={handlePressEnd}
+              >
               <img className={classes.star} src={ClickerStar} alt='clicker star' draggable="false"/>
             </button>
+
+            {bursts.map((burst) => (
+              <div 
+                key={burst.id}
+                className={classes.starBurst}
+                style={{
+                  left: `${burst.x}px`,
+                  top: `${burst.y}px`,
+                  '--tx': `${burst.tx}px`,
+                  '--ty': `${burst.ty}px`
+                }}
+              />
+            ))}
+
             <div className={classes.staminaWrapper}>
               <img className={classes.light} src={Light} alt='light' draggable="false"/>
               {0 ? (
