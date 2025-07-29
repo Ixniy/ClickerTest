@@ -73,7 +73,7 @@ const Clicker = () => {
   }, [localData, isSyncing, user?.id, updateUserData]);
 
   const handlePressEnd = () => {
-    setTimeout(() => setIsPressed(false), 300);
+    setIsPressed(false);
   }
 
   if (loading) return <div>Загрузка...</div>;
