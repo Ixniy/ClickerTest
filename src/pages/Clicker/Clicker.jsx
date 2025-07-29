@@ -18,16 +18,17 @@ const Clicker = () => {
   // const [level, setLevel] = useState(1);
   const [isPressed, setIsPressed] = useState(false);
   const [bursts, setBursts] = useState([]);
+  const [isUpdating, setIsUpdating] = useState(false);
   const buttonRef = useRef(null);
 
   const handlePressStart = async () => {  
-    if (userData.data.energy === 0) return;
+    if (userData.data.energy === 0 || isUpdating) return;
 
+    setIsUpdating(true);
     setBursts(createStarBursts(buttonRef.current, 4));
 
     const newStars = Number((userData.data.stars + 0.0004).toFixed(8));
     const newEnergy = userData.data.energy - 1;
-
     const shouldLevelUp = newStars >= Math.floor(userData.data.stars) + 1;
     const newLevel = shouldLevelUp ? userData.data.level + 1 : userData.data.level
 
@@ -36,6 +37,7 @@ const Clicker = () => {
       energy: newEnergy,
       level: newLevel,
     })
+    setIsPressed(true);
 
     try {
       await putData(`/api/users/${user?.id}/`, {
@@ -52,12 +54,12 @@ const Clicker = () => {
       })
     }
 
-    setIsPressed(true);
-
   };
 
   const handlePressEnd = () => {
-    setIsPressed(false);
+    if (!isUpdating) {
+      setIsPressed(false);
+    }
   }
 
   if (loading) return <div>Загрузка...</div>;
@@ -72,7 +74,7 @@ const Clicker = () => {
         <div className={classes.topSection}>
           <div className={classes.actionCount}>
             <img className={classes.starInfo} src={ClickerStar} alt='count star' draggable="false"/>
-            <span className={classes.starsInfo}>{userData.data.stars}</span>
+            <span className={classes.starsInfo}>{userData.data.stars.toFixed(4)}</span>
           </div>
         </div>
 
@@ -81,6 +83,7 @@ const Clicker = () => {
               <button ref={buttonRef} className={`${classes.actionBtn} ${isPressed ? classes.pressed : ''}`} 
                 onTouchStart={handlePressStart}
                 onTouchEnd={handlePressEnd}
+                disabled={isUpdating || userData.data.energy === 0}
               >
               <img className={classes.star} src={ClickerStar} alt='clicker star' draggable="false"/>
             </button>
