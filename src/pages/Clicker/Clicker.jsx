@@ -81,7 +81,7 @@ const Clicker = () => {
   if (!userData) return <div>Пользователь не найден</div>;
 
 
-  if (userData?.data) {
+  if (userData?.data || localData) {
     return (
     <div className= {classes.clickerBackground}>
       <div className={classes.content}>
