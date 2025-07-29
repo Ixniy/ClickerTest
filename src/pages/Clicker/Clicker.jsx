@@ -13,9 +13,9 @@ const Clicker = () => {
   const {userData, loading, error, updateUserData} = useApiData(user);
 
   const [localData, setLocalData] = useState({
-    stars: 0,
-    energy: 500,
-    level: 1
+    stars: userData.data.stars,
+    energy: userData.data.energy,
+    level: userData.data.level
   });
 
   const [isPressed, setIsPressed] = useState(false);
