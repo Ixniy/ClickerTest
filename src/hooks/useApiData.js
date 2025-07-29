@@ -31,7 +31,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const API_URL = 'https://animated-goggles-49x7jg5qgw43qgv7-80.app.github.dev/api';
+const API_URL = 'https://animated-goggles-49x7jg5qgw43qgv7-80.app.github.dev';
 
 const useApiData = (user) => {
   const [userData, setUserData] = useState(null);
