@@ -56,7 +56,6 @@ const Clicker = () => {
         level: level,
       });
     }, 2000);
-    intervalid();
     return () => clearInterval(intervalid);
   };
 
