@@ -12,11 +12,7 @@ const Clicker = () => {
   const { user } = useTelegram();
   const {userData, loading, error, updateUserData} = useApiData(user);
 
-  const [localData, setLocalData] = useState({
-    stars: 0,
-    energy: 500,
-    level: 1
-  });
+  const [localData, setLocalData] = useState(null);
 
   const [isPressed, setIsPressed] = useState(false);
 
@@ -26,8 +22,12 @@ const Clicker = () => {
   useEffect(() => {
     if (userData?.data) {
       const { stars, energy, level } = userData.data;
-      setLocalData({ stars, energy, level });
-      lastSyncedData.current = { stars, energy, level };
+      setLocalData({
+        stars: userData?.data?.stars || 0,
+        energy: userData?.data?.energy || 500,
+        level: userData?.data?.level || 1
+      });
+      lastSyncedData.current =   { stars, energy, level };
     }
   }, [userData?.data]);
 
