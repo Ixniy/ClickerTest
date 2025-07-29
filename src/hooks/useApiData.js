@@ -33,7 +33,7 @@ import axios from 'axios';
 
 const API_URL = 'https://animated-goggles-49x7jg5qgw43qgv7-80.app.github.dev/api';
 
-export const useApiData = (user) => {
+const useApiData = (user) => {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -88,3 +88,5 @@ export const useApiData = (user) => {
 
   return { userData, loading, error, updateUserData };
 };
+
+export default useApiData
