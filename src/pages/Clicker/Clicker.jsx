@@ -56,8 +56,10 @@ const Clicker = () => {
         lastSyncedData.current.stars !== localData.stars &&
         localData
       ) {
+        console.log('Conditions in syncInterval are good');
         setIsSyncing(true);
         try {
+          console.log('Try request accepted');
           await putData(`/api/users/${user?.id}/`, {
             id: user?.id,
             ...lastSyncedData.current,
