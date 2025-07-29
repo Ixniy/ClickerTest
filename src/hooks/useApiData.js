@@ -31,7 +31,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const API_URL = 'https://verbose-bassoon-v7xv6g9647xh6r-80.app.github.dev';
+const API_URL = 'https://humble-space-couscous-g9pj69rr4w397vq-80.app.github.dev';
 
 const useApiData = (user) => {
   const [userData, setUserData] = useState(null);
