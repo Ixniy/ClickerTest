@@ -14,16 +14,16 @@ const Clicker = () => {
   const {userData, loading, error, updateUserData} = useApiData(user);
 
   const [localData, setLocalData] = useState({
-    stars: userData?.data?.stars || 0,
-    energy: userData?.data?.energy || 500,
-    level: userData?.data?.level || 1
+    stars: 0,
+    energy: 500,
+    level: 1
   });
 
   const [isPressed, setIsPressed] = useState(false);
   const [bursts, setBursts] = useState([]);
   const buttonRef = useRef(null);
-  const initialDataLoaded = useRef(false);
 
+  // Инициализация локальных данных
   useEffect(() => {
     if (userData?.data) {
       setLocalData({
@@ -31,26 +31,26 @@ const Clicker = () => {
         energy: userData.data.energy,
         level: userData.data.level
       });
-      initialDataLoaded.current = true;
     }
-  }, [userData?.data])
+  }, [userData.data, userData.data.id]); // Только при смене пользователя
 
   const handlePressStart = async () => {  
     if (localData.energy <= 0) return;
 
     const newStars = Number((localData.stars + 0.0004).toFixed(8));
     const newEnergy = localData.energy - 1;
-    const shouldLevelUp = newStars >= Math.floor(userData.data.stars) + 1;
-    const newLevel = shouldLevelUp ? localData.level + 1 : localData.level
+    const shouldLevelUp = newStars >= Math.floor(localData.stars) + 1;
+    const newLevel = shouldLevelUp ? localData.level + 1 : localData.level;
 
+    // Мгновенное обновление UI
     setLocalData({
-        stars: userData.data.stars,
-        energy: userData.data.energy,
-        level: userData.data.level
+      stars: newStars,
+      energy: newEnergy,
+      level: newLevel
     });
 
     setBursts(createStarBursts(buttonRef.current, 4));
-    setIsPressed(true)
+    setIsPressed(true);
 
     try {
       await putData(`/api/users/${user?.id}/`, {
@@ -60,24 +60,20 @@ const Clicker = () => {
         level: newLevel
       });
       
-      // 3. Подтверждаем синхронизацию (без триггера useEffect)
-      // Можно добавить флаг "уже синхронизировано"
       updateUserData({
         stars: newStars,
         energy: newEnergy,
         level: newLevel
-      }, true); // Предполагаем, что updateUserData принимает флаг "skipReset"
+      });
       
     } catch (error) {
       console.error('Sync error:', error);
-      // Откатываем только если сервер явно отказал
       setLocalData({
         stars: userData.data.stars,
         energy: userData.data.energy,
         level: userData.data.level
       });
     }
-
   };
 
   const handlePressEnd = () => {
