@@ -13,47 +13,37 @@ const Clicker = () => {
   const { user } = useTelegram();
   const {userData, loading, error, updateUserData} = useApiData(user);
 
-  const [stars, setStars] = useState(0);
-  const [energy, setEnergy] = useState(500);
-  const [level, setLevel] = useState(1);
+  // const [stars, setStars] = useState(0);
+  // const [energy, setEnergy] = useState(500);
+  // const [level, setLevel] = useState(1);
   const [isPressed, setIsPressed] = useState(false);
   const [bursts, setBursts] = useState([]);
   const buttonRef = useRef(null);
 
   const handlePressStart = () => {  
-    if (energy === 0) return;
+    if (userData.data.energy === 0) return;
 
     setBursts(createStarBursts(buttonRef.current, 4));
 
-    const newStars = Number((stars + 0.0004).toFixed(8));
-    const newEnergy = energy - 1;
-    setEnergy(newEnergy);
-
+    const newStars = Number((userData.data.stars + 0.0004).toFixed(8));
+    const newEnergy = userData.data.energy - 1;
     const shouldLevelUp = newStars >= Math.floor(userData.data.stars) + 1;
-    if (shouldLevelUp) {
-      const newLevel = level + 1;
-      putData(`/api/users/${user?.id}/`, {
-        id: user?.id,
-        stars: newStars,
-        level: newLevel,
-      })
-      setLevel(newLevel);
-
-      updateUserData({
-        stars: newStars,
-        level: newLevel,
-      })
-    }
-
-    setIsPressed(true);
-    setStars(newStars);
+    const newLevel = shouldLevelUp ? userData.data.level + 1 : userData.data.level
 
     putData(`/api/users/${user?.id}/`, {
       id: user?.id,
       stars: newStars,
       energy: newEnergy,
-      level: level,
-    });
+      level: newLevel,
+    })
+
+    updateUserData({
+      stars: newStars,
+      energy: newEnergy,
+      level: newLevel,
+    })
+
+    setIsPressed(true);
 
   };
 
@@ -73,7 +63,7 @@ const Clicker = () => {
         <div className={classes.topSection}>
           <div className={classes.actionCount}>
             <img className={classes.starInfo} src={ClickerStar} alt='count star' draggable="false"/>
-            <span className={classes.starsInfo}>{stars}</span>
+            <span className={classes.starsInfo}>{userData.data.stars}</span>
           </div>
         </div>
 
@@ -104,7 +94,7 @@ const Clicker = () => {
               {0 ? (
                 <span>Loading...</span>
               ) : (
-                <span className={classes.stamina}>{energy} / 500</span>
+                <span className={classes.stamina}>{userData.data.energy} / 500</span>
               )}
             </div>
           </div>
