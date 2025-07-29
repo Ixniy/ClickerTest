@@ -82,14 +82,14 @@ const Clicker = () => {
   if (!userData) return <div>Пользователь не найден</div>;
 
 
-  if (userData?.data || localData) {
+  if (userData?.data && localData) {
     return (
     <div className= {classes.clickerBackground}>
       <div className={classes.content}>
         <div className={classes.topSection}>
           <div className={classes.actionCount}>
             <img className={classes.starInfo} src={ClickerStar} alt='count star' draggable="false"/>
-            <span className={classes.starsInfo}>{localData.stars.toFixed(4)}</span>
+            <span className={classes.starsInfo}>{localData?.stars.toFixed(4)}</span>
           </div>
         </div>
 
@@ -107,7 +107,7 @@ const Clicker = () => {
               {0 ? (
                 <span>Loading...</span>
               ) : (
-                <span className={classes.stamina}>{localData.energy} / 500</span>
+                <span className={classes.stamina}>{localData?.energy} / 500</span>
               )}
             </div>
           </div>
@@ -118,7 +118,7 @@ const Clicker = () => {
             {0 ? (
               <span>Loading...</span>
             ) : (
-              <span className={classes.lvl}>lvl {localData.level}</span>
+              <span className={classes.lvl}>lvl {localData?.level}</span>
             )}
           </div>
           <progress value={localData.energy} max={500} className={classes.staminaBar} />
