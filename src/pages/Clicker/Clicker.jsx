@@ -1,4 +1,4 @@
-import {useState, useRef} from 'react';
+import {useState, useRef, useEffect} from 'react';
 import classes from './Clicker.module.css';
 import BottomNav from '../../components/layout/BottomNav/BottomNav';
 import ClickerStar from '../../assets/images/ClickerStar.png';
@@ -13,30 +13,52 @@ const Clicker = () => {
   const { user } = useTelegram();
   const {userData, loading, error, updateUserData} = useApiData(user);
 
-  // const [stars, setStars] = useState(0);
-  // const [energy, setEnergy] = useState(500);
-  // const [level, setLevel] = useState(1);
+  const [localStars, setLocalStars] = useState(userData?.data?.stars || 0);
+  const [localEnergy, setLocalEnergy] = useState(userData?.data?.energy || 500);
+  const [localLevel, setLocalLevel] = useState(userData?.data?.Level || 1);
+
   const [isPressed, setIsPressed] = useState(false);
   const [bursts, setBursts] = useState([]);
-  const [isUpdating, setIsUpdating] = useState(false);
   const buttonRef = useRef(null);
 
-  const handlePressStart = async () => {  
-    if (userData.data.energy === 0 || isUpdating) return;
+  useEffect(() => {
+    if (userData?.data) {
+      setLocalStars(userData.data.stars);
+      setLocalEnergy(userData.data.energy);
+      setLocalLevel(userData.data.level);
+    }
+  }, [userData])
 
-    setIsUpdating(true);
-    setBursts(createStarBursts(buttonRef.current, 4));
+  const handlePressStart = async () => {  
+    if (localEnergy <= 0) return;
 
     const newStars = Number((userData.data.stars + 0.0004).toFixed(8));
     const newEnergy = userData.data.energy - 1;
     const shouldLevelUp = newStars >= Math.floor(userData.data.stars) + 1;
     const newLevel = shouldLevelUp ? userData.data.level + 1 : userData.data.level
 
-    updateUserData({
+    setLocalStars(newStars);
+    setLocalEnergy(newEnergy);
+    setLocalLevel(newLevel);
+    setBursts(createStarBursts(buttonRef.current, 4));
+    setIsPressed(true)
+
+    putData(`/api/users/${user?.id}/`, {
+      id: user?.id,
       stars: newStars,
       energy: newEnergy,
       level: newLevel,
     })
+      .then(() => {
+        updateUserData({
+          stars: newStars,
+          energy: newEnergy,
+          level: newLevel,
+        })
+      })
+      .catch((err) => {
+        console.error('Sync error:', err);
+      });
     setIsPressed(true);
 
     try {
@@ -57,9 +79,7 @@ const Clicker = () => {
   };
 
   const handlePressEnd = () => {
-    if (!isUpdating) {
-      setIsPressed(false);
-    }
+    setIsPressed(false);
   }
 
   if (loading) return <div>Загрузка...</div>;
@@ -74,7 +94,7 @@ const Clicker = () => {
         <div className={classes.topSection}>
           <div className={classes.actionCount}>
             <img className={classes.starInfo} src={ClickerStar} alt='count star' draggable="false"/>
-            <span className={classes.starsInfo}>{userData.data.stars.toFixed(4)}</span>
+            <span className={classes.starsInfo}>{localStars.toFixed(4)}</span>
           </div>
         </div>
 
@@ -83,7 +103,6 @@ const Clicker = () => {
               <button ref={buttonRef} className={`${classes.actionBtn} ${isPressed ? classes.pressed : ''}`} 
                 onTouchStart={handlePressStart}
                 onTouchEnd={handlePressEnd}
-                disabled={isUpdating || userData.data.energy === 0}
               >
               <img className={classes.star} src={ClickerStar} alt='clicker star' draggable="false"/>
             </button>
@@ -106,7 +125,7 @@ const Clicker = () => {
               {0 ? (
                 <span>Loading...</span>
               ) : (
-                <span className={classes.stamina}>{userData.data.energy} / 500</span>
+                <span className={classes.stamina}>{localEnergy} / 500</span>
               )}
             </div>
           </div>
@@ -117,7 +136,7 @@ const Clicker = () => {
             {0 ? (
               <span>Loading...</span>
             ) : (
-              <span className={classes.lvl}>lvl {userData.data.level}</span>
+              <span className={classes.lvl}>lvl {localLevel}</span>
             )}
           </div>
           <progress value={600} max={600} className={classes.staminaBar} />
