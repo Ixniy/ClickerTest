@@ -21,6 +21,7 @@ const Clicker = () => {
 
   useEffect(() => {
     if (userData?.data) {
+      console.log(userData.data);
       const { stars, energy, level } = userData.data;
       setLocalData({
         stars: userData?.data?.stars || 0,
