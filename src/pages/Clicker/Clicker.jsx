@@ -38,10 +38,10 @@ const Clicker = () => {
   const handlePressStart = async () => {  
     if (localData.energy <= 0) return;
 
-    const newStars = Number((userData.data.stars + 0.0004).toFixed(8));
-    const newEnergy = userData.data.energy - 1;
+    const newStars = Number((localData.stars + 0.0004).toFixed(8));
+    const newEnergy = localData.energy - 1;
     const shouldLevelUp = newStars >= Math.floor(userData.data.stars) + 1;
-    const newLevel = shouldLevelUp ? userData.data.level + 1 : userData.data.level
+    const newLevel = shouldLevelUp ? localData.level + 1 : localData.level
 
     setLocalData({
         stars: userData.data.stars,
