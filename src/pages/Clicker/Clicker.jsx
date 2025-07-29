@@ -6,12 +6,12 @@ import Light from '../../assets/images/Light.png';
 import {putData} from '../../services/putFetchData';
 import { useTelegram } from '../../hooks/useTelegram';
 import {createStarBursts} from '../../utils/starEffect';
-import { useApiData, updateUserData } from '../../hooks/useApiData';
+import useApiData from '../../hooks/useApiData';
 
 
 const Clicker = () => {
   const { user } = useTelegram();
-  const {userData, loading, error} = useApiData(user);
+  const {userData, loading, error, updateUserData} = useApiData(user);
 
   const [stars, setStars] = useState(0);
   const [energy, setEnergy] = useState(0);
@@ -19,8 +19,6 @@ const Clicker = () => {
   const [isPressed, setIsPressed] = useState(false);
   const [bursts, setBursts] = useState([]);
   const buttonRef = useRef(null);
-
-
 
   const handlePressStart = (e) => {  
     if (energy === 0) return;
