@@ -118,6 +118,7 @@ const Clicker = () => {
         id: user?.id,
         stars: newStars,
         energy: newEnergy,
+        level: level,
       });
     }, 2000);
     return () => clearInterval(intervalid);
