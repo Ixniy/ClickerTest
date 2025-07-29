@@ -20,28 +20,37 @@ const Clicker = () => {
   const [bursts, setBursts] = useState([]);
   const buttonRef = useRef(null);
 
-  const handlePressStart = () => {  
+  const handlePressStart = async () => {  
     if (userData.data.energy === 0) return;
 
     setBursts(createStarBursts(buttonRef.current, 4));
 
     const newStars = Number((userData.data.stars + 0.0004).toFixed(8));
     const newEnergy = userData.data.energy - 1;
+
     const shouldLevelUp = newStars >= Math.floor(userData.data.stars) + 1;
     const newLevel = shouldLevelUp ? userData.data.level + 1 : userData.data.level
-
-    putData(`/api/users/${user?.id}/`, {
-      id: user?.id,
-      stars: newStars,
-      energy: newEnergy,
-      level: newLevel,
-    })
 
     updateUserData({
       stars: newStars,
       energy: newEnergy,
       level: newLevel,
     })
+
+    try {
+      await putData(`/api/users/${user?.id}/`, {
+        id: user?.id,
+        stars: newStars,
+        energy: newEnergy,
+        level: newLevel,
+      })
+    } catch (error) {
+      updateUserData({
+        stars: userData.data.stars,
+        energy: userData.data.energy,
+        level: userData.data.level,
+      })
+    }
 
     setIsPressed(true);
 
