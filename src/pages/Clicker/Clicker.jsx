@@ -34,6 +34,8 @@ const Clicker = () => {
   const handlePressStart = () => {
     if (localData.energy <= 0) return;
 
+    setIsPressed(true);
+
     setLocalData(prev => {
       const newStars = Number((prev.stars + 0.0004).toFixed(8));
       const newEnergy = prev.energy - 1;
@@ -43,6 +45,7 @@ const Clicker = () => {
       
       return { stars: newStars, energy: newEnergy, level: newLevel };
     });
+
   };
 
   useEffect(() => {
