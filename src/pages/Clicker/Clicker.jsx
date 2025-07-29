@@ -22,6 +22,7 @@ const Clicker = () => {
   const [isPressed, setIsPressed] = useState(false);
   const [bursts, setBursts] = useState([]);
   const buttonRef = useRef(null);
+  const initialDataLoaded = useRef(false);
 
   useEffect(() => {
     if (userData?.data) {
@@ -30,8 +31,9 @@ const Clicker = () => {
         energy: userData.data.energy,
         level: userData.data.level
       });
+      initialDataLoaded.current = true;
     }
-  }, [userData])
+  }, [userData?.data])
 
   const handlePressStart = async () => {  
     if (localData.energy <= 0) return;
