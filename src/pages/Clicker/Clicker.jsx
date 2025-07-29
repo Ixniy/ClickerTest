@@ -48,15 +48,13 @@ const Clicker = () => {
     setIsPressed(true);
     setStars(newStars);
 
-    const intervalid = () => setInterval(() => {
-      putData(`/api/users/${user?.id}/`, {
-        id: user?.id,
-        stars: newStars,
-        energy: newEnergy,
-        level: level,
-      });
-    }, 2000);
-    return () => clearInterval(intervalid);
+    putData(`/api/users/${user?.id}/`, {
+      id: user?.id,
+      stars: newStars,
+      energy: newEnergy,
+      level: level,
+    });
+    
   };
 
   const handlePressEnd = () => {
