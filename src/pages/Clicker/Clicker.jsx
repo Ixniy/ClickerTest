@@ -25,7 +25,7 @@ const Clicker = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `https://organic-orbit-pvg94ppvvrjf66wx-80.app.github.dev/api/users/${user?.id}/`
+          `https://humble-spoon-qgwq79jv94qh4w4q-80.app.github.dev/api/users/${user?.id}/`
         );
         
         // Проверяем структуру ответа
@@ -52,7 +52,7 @@ const Clicker = () => {
     const createUser = async () => {
       try {
         const response = await axios.post(
-          'https://organic-orbit-pvg94ppvvrjf66wx-80.app.github.dev/api/users/',
+          'https://humble-spoon-qgwq79jv94qh4w4q-80.app.github.dev/api/users/',
           {
             id: user?.id,
             username: user?.username,
@@ -85,29 +85,42 @@ const Clicker = () => {
 
   const handlePressStart = () => {  
     if (energy === 0) return;
-    if (Number((stars + 0.0004).toFixed(8)) === userData.data.stars + 1) {
+
+    const newStars = Number((stars + 0.0004).toFixed(8));
+    const newEnergy = energy - 1;
+    setEnergy(newEnergy);
+
+    const shouldLevelUp = newStars >= Math.floor(userData.data.stars) + 1;
+    if (shouldLevelUp) {
+      const newLevel = level + 1;
       putData(`/api/users/${user?.id}/`, {
         id: user?.id,
-        stars: stars + 1,
-        level: level + 1,
+        stars: newStars,
+        level: newLevel,
       })
-      setLevel(prev => prev + 1);
-      userData.data.stars += 1;
-      userData.data.level += 1;
+      setLevel(newLevel);
+
+      setUserData(prev => ({
+        ...prev,
+        data: {
+          ...prev.data,
+          stars: newStars,
+          level: newLevel
+        }
+      }));
     }
 
     setIsPressed(true);
-    setStars(Number((stars + 0.0004).toFixed(8)));
-    setEnergy(prev => prev - 1);
-    const pizdecData = () => (setInterval(() => {
+    setStars(newStars);
+
+    const intervalid = () => setInterval(() => {
       putData(`/api/users/${user?.id}/`, {
         id: user?.id,
-        stars: stars,
-        energy: energy - 1,
-        level: level,
-      })
-    }, 4000));
-    pizdecData();
+        stars: newStars,
+        energy: newEnergy,
+      });
+    }, 2000);
+    return () => clearInterval(intervalid);
   };
 
   const handlePressEnd = () => {

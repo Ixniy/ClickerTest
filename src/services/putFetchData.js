@@ -1,5 +1,5 @@
 import axios from 'axios';
-const API_URL = 'https://organic-orbit-pvg94ppvvrjf66wx-80.app.github.dev';
+const API_URL = 'https://humble-spoon-qgwq79jv94qh4w4q-80.app.github.dev';
 
 export const putData = async (endpoint, postData) => {
   try {
