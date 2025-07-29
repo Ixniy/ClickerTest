@@ -81,7 +81,7 @@ const useApiData = (user) => {
         ...prev,
         data: { 
           ...prev?.data,
-          ...prev.newData
+          ...newData,
         }
       }));
   }

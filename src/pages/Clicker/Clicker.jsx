@@ -32,10 +32,12 @@ const Clicker = () => {
         level: userData.data.level
       });
     }
-  }, [userData.data, userData.data.id]); // Только при смене пользователя
+  }, [userData?.data]); // Только при смене пользователя
 
   const handlePressStart = async () => {  
     if (localData.energy <= 0) return;
+
+    const prevData  = {...localData};
 
     const newStars = Number((localData.stars + 0.0004).toFixed(8));
     const newEnergy = localData.energy - 1;
@@ -53,6 +55,21 @@ const Clicker = () => {
     setIsPressed(true);
 
     try {
+      const newStars = Number((localData.stars + 0.0004).toFixed(8));
+      const newEnergy = localData.energy - 1;
+      const shouldLevelUp = newStars >= Math.floor(localData.stars) + 1;
+      const newLevel = shouldLevelUp ? localData.level + 1 : localData.level;
+
+      // Оптимистичное обновление
+      setLocalData({
+        stars: newStars,
+        energy: newEnergy,
+        level: newLevel
+      });
+
+      setBursts(createStarBursts(buttonRef.current, 4));
+      setIsPressed(true);
+
       await putData(`/api/users/${user?.id}/`, {
         id: user?.id,
         stars: newStars,
@@ -65,16 +82,13 @@ const Clicker = () => {
         energy: newEnergy,
         level: newLevel
       });
-      
-    } catch (error) {
-      console.error('Sync error:', error);
-      setLocalData({
-        stars: userData.data.stars,
-        energy: userData.data.energy,
-        level: userData.data.level
-      });
+    
+  } catch (error) {
+    console.error('Sync error:', error);
+    // Откатываем к предыдущему состоянию
+    setLocalData(prevData);
     }
-  };
+  } 
 
   const handlePressEnd = () => {
     setIsPressed(false);
@@ -137,7 +151,7 @@ const Clicker = () => {
               <span className={classes.lvl}>lvl {localData.level}</span>
             )}
           </div>
-          <progress value={600} max={600} className={classes.staminaBar} />
+          <progress value={localData.energy} max={500} className={classes.staminaBar} />
         </div>
       </div>
       <BottomNav />
