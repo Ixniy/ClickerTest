@@ -20,7 +20,7 @@ const Clicker = () => {
   const [bursts, setBursts] = useState([]);
   const buttonRef = useRef(null);
 
-  const handlePressStart = (e) => {  
+  const handlePressStart = () => {  
     if (energy === 0) return;
 
     setBursts(createStarBursts(buttonRef.current, 4));

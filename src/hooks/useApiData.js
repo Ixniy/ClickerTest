@@ -42,7 +42,7 @@ const useApiData = (user) => {
     const fetchUser = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`${API_URL}/users/${user?.id}/`);
+        const response = await axios.get(`${API_URL}/api/users/${user?.id}/`);
         
         if (response.data) {
           setUserData(response.data);
@@ -62,7 +62,7 @@ const useApiData = (user) => {
 
     const createUser = async () => {
       try {
-        const response = await axios.post(`${API_URL}/users/`, {
+        const response = await axios.post(`${API_URL}/api/users/`, {
           id: user?.id,
           username: user?.username,
           // Другие обязательные поля
