@@ -25,7 +25,7 @@ const Clicker = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `https://humble-spoon-qgwq79jv94qh4w4q-80.app.github.dev/api/users/${user?.id}/`
+          `https://animated-goggles-49x7jg5qgw43qgv7-80.app.github.dev/api/users/${user?.id}/`
         );
         
         // Проверяем структуру ответа
@@ -52,7 +52,7 @@ const Clicker = () => {
     const createUser = async () => {
       try {
         const response = await axios.post(
-          'https://humble-spoon-qgwq79jv94qh4w4q-80.app.github.dev/api/users/',
+          'https://animated-goggles-49x7jg5qgw43qgv7-80.app.github.dev/api/users/',
           {
             id: user?.id,
             username: user?.username,

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const API_URL = 'https://humble-spoon-qgwq79jv94qh4w4q-80.app.github.dev';
+const API_URL = 'https://animated-goggles-49x7jg5qgw43qgv7-80.app.github.dev';
 
 const useFetchData = (endpoint) => {
   const [data, setData] = useState(null);
