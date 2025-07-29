@@ -5,7 +5,6 @@ import ClickerStar from '../../assets/images/ClickerStar.png';
 import Light from '../../assets/images/Light.png';
 import {putData} from '../../services/putFetchData';
 import { useTelegram } from '../../hooks/useTelegram';
-import {createStarBursts} from '../../utils/starEffect';
 import useApiData from '../../hooks/useApiData';
 
 
@@ -20,75 +19,55 @@ const Clicker = () => {
   });
 
   const [isPressed, setIsPressed] = useState(false);
-  const [bursts, setBursts] = useState([]);
-  const buttonRef = useRef(null);
 
-  // Инициализация локальных данных
+  const lastSyncedData = useRef(localData);
+  const [isSyncing, setIsSyncing] = useState(false);
+
   useEffect(() => {
     if (userData?.data) {
-      setLocalData({
-        stars: userData.data.stars,
-        energy: userData.data.energy,
-        level: userData.data.level
-      });
+      const { stars, energy, level } = userData.data;
+      setLocalData({ stars, energy, level });
+      lastSyncedData.current = { stars, energy, level };
     }
-  }, [userData?.data]); // Только при смене пользователя
+  }, [userData?.data]);
 
-  const handlePressStart = async () => {  
+  const handlePressStart = () => {
     if (localData.energy <= 0) return;
 
-    const prevData  = {...localData};
-
-    const newStars = Number((localData.stars + 0.0004).toFixed(8));
-    const newEnergy = localData.energy - 1;
-    const shouldLevelUp = newStars >= Math.floor(localData.stars) + 1;
-    const newLevel = shouldLevelUp ? localData.level + 1 : localData.level;
-
-    // Мгновенное обновление UI
-    setLocalData({
-      stars: newStars,
-      energy: newEnergy,
-      level: newLevel
-    });
-
-    setBursts(createStarBursts(buttonRef.current, 4));
-    setIsPressed(true);
-
-    try {
-      const newStars = Number((localData.stars + 0.0004).toFixed(8));
-      const newEnergy = localData.energy - 1;
-      const shouldLevelUp = newStars >= Math.floor(localData.stars) + 1;
-      const newLevel = shouldLevelUp ? localData.level + 1 : localData.level;
-
-      // Оптимистичное обновление
-      setLocalData({
-        stars: newStars,
-        energy: newEnergy,
-        level: newLevel
-      });
-
-      setBursts(createStarBursts(buttonRef.current, 4));
-      setIsPressed(true);
-
-      await putData(`/api/users/${user?.id}/`, {
-        id: user?.id,
-        stars: newStars,
-        energy: newEnergy,
-        level: newLevel
-      });
+    setLocalData(prev => {
+      const newStars = Number((prev.stars + 0.0004).toFixed(8));
+      const newEnergy = prev.energy - 1;
+      const newLevel = newStars >= Math.floor(prev.stars) + 1 ? prev.level + 1 : prev.level;
       
-      updateUserData({
-        stars: newStars,
-        energy: newEnergy,
-        level: newLevel
-      });
-    
-  } catch (error) {
-    console.error('Sync error:', error);
-    // Откатываем к предыдущему состоянию
-    setLocalData(prevData);
-    }
-  } 
+      lastSyncedData.current = { stars: newStars, energy: newEnergy, level: newLevel };
+      
+      return { stars: newStars, energy: newEnergy, level: newLevel };
+    });
+  };
+
+  useEffect(() => {
+    const syncInterval = setInterval(async () => {
+      if (
+        !isSyncing &&
+        lastSyncedData.current.stars !== localData.stars 
+      ) {
+        setIsSyncing(true);
+        try {
+          await putData(`/api/users/${user?.id}/`, {
+            id: user?.id,
+            ...lastSyncedData.current,
+          });
+          updateUserData(lastSyncedData.current);
+        } catch (error) {
+            console.error('Sync error:', error);
+        } finally {
+            setIsSyncing(false);
+        }
+      }
+    }, 4000); 
+
+    return () => clearInterval(syncInterval);
+  }, [localData, isSyncing, user?.id, updateUserData]);
 
   const handlePressEnd = () => {
     setIsPressed(false);
@@ -112,25 +91,12 @@ const Clicker = () => {
 
         <div className={classes.centerSection}>
           <div className={classes.actionTap}>
-              <button ref={buttonRef} className={`${classes.actionBtn} ${isPressed ? classes.pressed : ''}`} 
+              <button className={`${classes.actionBtn} ${isPressed ? classes.pressed : ''}`} 
                 onTouchStart={handlePressStart}
                 onTouchEnd={handlePressEnd}
               >
               <img className={classes.star} src={ClickerStar} alt='clicker star' draggable="false"/>
             </button>
-
-            {bursts.map((burst) => (
-              <div 
-                key={burst.id}
-                className={classes.starBurst}
-                style={{
-                  left: `${burst.x}px`,
-                  top: `${burst.y}px`,
-                  '--tx': `${burst.tx}px`,
-                  '--ty': `${burst.ty}px`
-                }}
-              />
-            ))}
 
             <div className={classes.staminaWrapper}>
               <img className={classes.light} src={Light} alt='light' draggable="false"/>
