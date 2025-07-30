@@ -89,8 +89,6 @@ const Clicker = () => {
 
 
   useEffect(() => {
-    if (!onClose) return;
-    
     const handleClose = () => {
       if (lastSyncedData.current) {
         console.log(123123);
@@ -100,9 +98,9 @@ const Clicker = () => {
       }
     };
     
-    tg.onEvent('close', handleClose);
+    tg.onClose(handleClose);
     return () => {
-      tg.offEvent('close', handleClose);
+      tg.onClose(null);
     };
 
   }, [user?.id, tg, onClose])
