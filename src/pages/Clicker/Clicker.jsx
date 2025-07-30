@@ -9,7 +9,7 @@ import useApiData from '../../hooks/useApiData';
 
 
 const Clicker = () => {
-  const { user, onClose, tg } = useTelegram();
+  const { user } = useTelegram();
   const {userData, loading, error, updateUserData} = useApiData(user);
 
   const [localData, setLocalData] = useState(null);
@@ -88,22 +88,19 @@ const Clicker = () => {
   }, [localData, isSyncing, user?.id, updateUserData]);
 
 
-  useEffect(() => {
-    const handleClose = () => {
-      if (lastSyncedData.current) {
-        console.log(123123);
-        putData(`/api/users/${user?.id}/`, lastSyncedData.current)
-          .then(() => console.log("Успешно!"))
-          .catch((err) => console.err('Ошибочка!', err));
-      }
-    };
+  // useEffect(() => {
+  //   const handleClose = () => {
+  //     if (lastSyncedData.current) {
+  //       console.log(123123);
+  //       putData(`/api/users/${user?.id}/`, lastSyncedData.current)
+  //         .then(() => console.log("Успешно!"))
+  //         .catch((err) => console.err('Ошибочка!', err));
+  //     }
+  //   };
     
-    tg.onClose(handleClose);
-    return () => {
-      tg.onClose(null);
-    };
+  //   onClose()
 
-  }, [user?.id, tg, onClose])
+  // }, [user?.id, tg, onClose])
 
 
   if (loading) return <div>Загрузка...</div>;
