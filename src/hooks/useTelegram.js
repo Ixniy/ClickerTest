@@ -3,7 +3,6 @@ const tg = window.Telegram.WebApp;
 export function useTelegram() {
 
     const onClose = (callback) => {
-        console.log(123);
         const originalClose = tg.close;
         tg.close = () => {
             callback();
