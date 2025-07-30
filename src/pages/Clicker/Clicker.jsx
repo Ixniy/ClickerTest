@@ -6,11 +6,10 @@ import Light from '../../assets/images/Light.png';
 import {putData} from '../../services/putFetchData';
 import { useTelegram } from '../../hooks/useTelegram';
 import useApiData from '../../hooks/useApiData';
-import API_URL from '../../hooks/useApiData';
 
 
 const Clicker = () => {
-  const { user } = useTelegram();
+  const { user, onClose } = useTelegram();
   const {userData, loading, error, updateUserData} = useApiData(user);
 
   const [localData, setLocalData] = useState(null);
@@ -89,33 +88,12 @@ const Clicker = () => {
 
 
   useEffect(() => {    
-   const handleUnload = () => {
-    if (lastSyncedData.current && user?.id) {
-      // Формируем данные для отправки
-      const data = {
-        id: user.id,
-        stars: lastSyncedData.current.stars,
-        energy: lastSyncedData.current.energy,
-        level: lastSyncedData.current.level
-      };
-
-      // Отправка через navigator.sendBeacon (работает даже при резком закрытии)
-      navigator.sendBeacon(
-        `${API_URL}/api/users/${user.id}/`,
-        JSON.stringify(data)
-      );
-      
-      console.log('Данные отправлены при закрытии:', data);
-    }
-  };
-
-  window.addEventListener('beforeunload', handleUnload);
-  
-  return () => {
-    window.removeEventListener('beforeunload', handleUnload);
-  };
-
-  }, [user?.id])
+    onClose(() => {
+      if (lastSyncedData.current) {
+        putData(`/api/users/${user.id}/`, lastSyncedData.current);
+      }
+    });
+  }, [user?.id, onClose])
 
 
   if (loading) return <div>Загрузка...</div>;
