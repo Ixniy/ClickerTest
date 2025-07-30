@@ -19,19 +19,6 @@ const Clicker = () => {
   const lastSyncedData = useRef(localData);
   const [isSyncing, setIsSyncing] = useState(false);
 
-  useEffect(() => {
-    if (userData?.data) {
-      console.log(userData.data);
-      const { stars, energy, level } = userData.data;
-      setLocalData({
-        stars: userData?.data?.stars || 0,
-        energy: userData?.data?.energy || 500,
-        level: userData?.data?.level || 1
-      });
-      lastSyncedData.current =   { stars, energy, level };
-    }
-  }, [userData?.data]);
-
   const handlePressStart = () => {
     if (localData.energy <= 0) return;
 
@@ -50,11 +37,34 @@ const Clicker = () => {
 
   };
 
+  const handlePressEnd = () => {
+    setIsPressed(false);
+  }
+
+  useEffect(() => {
+    if (userData?.data) {
+      console.log(userData.data);
+      const { stars, energy, level } = userData.data;
+      setLocalData({
+        stars: userData?.data?.stars || 0,
+        energy: userData?.data?.energy || 500,
+        level: userData?.data?.level || 1
+      });
+      lastSyncedData.current =   { stars, energy, level };
+    }
+  }, [userData?.data]);
+
   useEffect(() => {
     const syncInterval = setInterval(async () => {
       if (
         !isSyncing &&
-        localData
+        localData &&
+        lastSyncedData.current &&
+        (
+          lastSyncedData.current.stars !== localData.stars ||
+          lastSyncedData.current.energy !== localData.energy ||
+          lastSyncedData.current.level !== localData.level
+        )
       ) {
         console.log('Conditions in syncInterval are good');
         setIsSyncing(true);
@@ -86,9 +96,6 @@ const Clicker = () => {
     };
   }, [user?.id, localData])
 
-  const handlePressEnd = () => {
-    setIsPressed(false);
-  }
 
   if (loading) return <div>Загрузка...</div>;
   if (error) return <div>Ошибка: {error.message}</div>;
@@ -105,7 +112,6 @@ const Clicker = () => {
             <span className={classes.starsInfo}>{localData?.stars.toFixed(4)}</span>
           </div>
         </div>
-
         <div className={classes.centerSection}>
           <div className={classes.actionTap}>
               <button className={`${classes.actionBtn} ${isPressed ? classes.pressed : ''}`} 
@@ -142,8 +148,6 @@ const Clicker = () => {
     </div>
   )
   }
-
-
 }
 
 export default Clicker
