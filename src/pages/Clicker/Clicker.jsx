@@ -9,7 +9,7 @@ import useApiData from '../../hooks/useApiData';
 import API_URL from '../../hooks/useApiData';
 
 const Clicker = () => {
-  const { user} = useTelegram();
+  const { tg, user, onClose } = useTelegram();
   const {userData, loading, error, updateUserData} = useApiData(user);
 
   const [localData, setLocalData] = useState(null);
@@ -88,33 +88,18 @@ const Clicker = () => {
 
 
   useEffect(() => {    
-    const sendDataOnExit = () => {
-    if (!lastSyncedData.current) return;
-    
-    const data = JSON.stringify({
-      id: user?.id,
-      ...lastSyncedData.current,
+    onClose(() => {
+      if (lastSyncedData.current) {
+        // Отправляем запрос, но не ждём ответа
+        fetch(`${API_URL}/api/users/${user.id}/`, {
+          method: 'PUT',
+          body: JSON.stringify(lastSyncedData.current),
+          headers: { 'Content-Type': 'application/json' },
+        }).catch(() => {});
+      }
+      setTimeout(() => tg.close(), 100); // Даём время на отправку
     });
-
-    // Используем Beacon API, если доступен (работает даже при закрытии вкладки)
-    if (navigator.sendBeacon) {
-      navigator.sendBeacon(`${API_URL}/api/users/${user?.id}/`, data);
-    } 
-    // Если нет — пытаемся отправить обычным fetch (менее надежно)
-    else {
-      fetch(`${API_URL}/api/users/${user?.id}/`, {
-        method: 'PUT',
-        body: data,
-        headers: { 'Content-Type': 'application/json' },
-        keepalive: true, // Пытаемся отправить даже после закрытия
-      }).catch(console.error);
-    }
-  };
-  window.addEventListener('beforeunload', sendDataOnExit);
-  return () => {
-    window.removeEventListener('beforeunload', sendDataOnExit);
-  }
-  }, [user?.id])
+  }, [user.id, tg, onClose])
 
 
   if (loading) return <div>Загрузка...</div>;
