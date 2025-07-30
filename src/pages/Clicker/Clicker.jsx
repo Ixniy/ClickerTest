@@ -25,9 +25,9 @@ const Clicker = () => {
 
     const newParticles = Array(5).fill().map(() => ({
       id: Math.random().toString(36).substring(2, 9),
-      x: Math.random() * 100 - 50, // Позиция X (-50..50)
-      y: Math.random() * 100 - 50, // Позиция Y (-50..50)
-      size: Math.random() * 10 + 5, // Размер (5..15px)
+      x: Math.random() * 250 - 50, // Позиция X (-50..50)
+      y: Math.random() * 250 - 50, // Позиция Y (-50..50)
+      size: Math.random() * 15 + 5, // Размер (5..15px)
     }));
     setParticles(newParticles);
 
