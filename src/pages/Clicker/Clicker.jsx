@@ -96,10 +96,12 @@ const Clicker = () => {
           .catch((err) => console.err('Ошибочка!', err));
       }
     };
+    
+    const cleanTelegramClose = onClose?.(handleClose) || (() => {});
 
-    onClose(handleClose);
     return () => {
-      onClose(null)
+      handleClose();
+      cleanTelegramClose();
     }
 
   }, [user?.id, onClose])
