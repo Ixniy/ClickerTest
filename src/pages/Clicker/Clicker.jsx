@@ -76,6 +76,16 @@ const Clicker = () => {
     return () => clearInterval(syncInterval);
   }, [localData, isSyncing, user?.id, updateUserData]);
 
+  useEffect(() => {
+    return () => {
+      if (localData && user?.id) {
+        putData(`/api/users/${user?.id}/`, localData)
+          .then(() => console.log("Успешно!"))
+          .catch((err) => console.err('Ошибочка!', err));
+      }
+    };
+  }, [user?.id, localData])
+
   const handlePressEnd = () => {
     setIsPressed(false);
   }
