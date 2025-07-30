@@ -80,32 +80,31 @@ const Clicker = () => {
             setIsSyncing(false);
         }
       }
-    }, 4000); 
+    }, 2000); 
 
     return () => clearInterval(syncInterval);
 
   }, [localData, isSyncing, user?.id, updateUserData]);
 
 
-  useEffect(() => {    
-    const forceSyncOnExit = () => {
-    if (!lastSyncedData.current) return;
+  // useEffect(() => {    
+  //   const forceSyncOnExit = () => {
+  //   if (!lastSyncedData.current) return;
     
-    const data = JSON.stringify({
-      id: user?.id,
-      ...lastSyncedData.current,
-    });
+  //   const data = JSON.stringify({
+  //     id: user?.id,
+  //     ...lastSyncedData.current,
+  //   });
 
-    // 1. Пробуем Beacon API (работает даже при убийстве процесса)
-    if (navigator.sendBeacon) {
-      navigator.sendBeacon(`${API_URL}/api/users/${user.id}/`, data);
-      console.log("Данные отправлены через sendBeacon");
-    } 
-  };
-    window.addEventListener('beforeunload', forceSyncOnExit); // Закрытие вкладки
-    window.addEventListener('pagehide', forceSyncOnExit);     // Mobile Safari
-    window.addEventListener('unload', forceSyncOnExit);
-  }, [user.id, tg, onClose])
+  //   if (navigator.sendBeacon) {
+  //     navigator.sendBeacon(`${API_URL}/api/users/${user.id}/`, data);
+  //     console.log("Данные отправлены через sendBeacon");
+  //   } 
+  // };
+  //   window.addEventListener('beforeunload', forceSyncOnExit);
+  //   window.addEventListener('pagehide', forceSyncOnExit);    
+  //   window.addEventListener('unload', forceSyncOnExit);
+  // }, [user.id, tg, onClose])
 
 
   if (loading) return <div>Загрузка...</div>;
