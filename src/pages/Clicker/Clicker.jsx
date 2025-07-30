@@ -60,6 +60,7 @@ const Clicker = () => {
 
   useEffect(() => {
     const syncInterval = setInterval(async () => {
+      console.log(lastSyncedData.current.stars, localData.stars);
       if (
         !isSyncing &&
         localData &&
