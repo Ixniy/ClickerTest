@@ -93,6 +93,7 @@ const Clicker = () => {
     
     const handleClose = () => {
       if (lastSyncedData.current) {
+        console.log(123123);
         putData(`/api/users/${user?.id}/`, lastSyncedData.current)
           .then(() => console.log("Успешно!"))
           .catch((err) => console.err('Ошибочка!', err));
