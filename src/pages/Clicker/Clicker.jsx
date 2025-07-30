@@ -47,14 +47,11 @@ const Clicker = () => {
 
   useEffect(() => {
     if (userData?.data) {
-      console.log(userData.data);
-      const { stars, energy, level } = userData.data;
       setLocalData({
         stars: userData?.data?.stars || 0,
         energy: userData?.data?.energy || 500,
         level: userData?.data?.level || 1
       });
-      lastSyncedData.current = { stars, energy, level };
     }
   }, [userData?.data]);
 
@@ -63,7 +60,12 @@ const Clicker = () => {
       if (
         !isSyncing &&
         localData &&
-        lastSyncedData.current
+        lastSyncedData.current &&
+        (
+          lastSyncedData.current.stars !== localData.stars ||
+          lastSyncedData.current.energy !== localData.energy ||
+          lastSyncedData.current.level !== localData.level
+        )
       ) {
         console.log(localData, lastSyncedData);
         console.log('Conditions in syncInterval are good');
@@ -72,9 +74,9 @@ const Clicker = () => {
           console.log('Try request accepted');
           await putData(`/api/users/${user?.id}/`, {
             id: user?.id,
-            ...lastSyncedData.current,
+            ...localData,
           });
-          updateUserData(lastSyncedData.current);
+          lastSyncedData.current = {...localData}
         } catch (error) {
             console.error('Sync error:', error);
         } finally {
