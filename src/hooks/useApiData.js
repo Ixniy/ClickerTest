@@ -31,7 +31,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const API_URL = 'https://sturdy-bassoon-w64px65597f55gr-80.app.github.dev';
+export const API_URL = 'https://sturdy-bassoon-w64px65597f55gr-80.app.github.dev';
 
 const useApiData = (user) => {
   const [userData, setUserData] = useState(null);

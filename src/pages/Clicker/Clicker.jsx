@@ -6,14 +6,14 @@ import Light from '../../assets/images/Light.png';
 import {putData} from '../../services/putFetchData';
 import { useTelegram } from '../../hooks/useTelegram';
 import useApiData from '../../hooks/useApiData';
+import API_URL from '../../hooks/useApiData';
 
 
 const Clicker = () => {
-  const { user } = useTelegram();
+  const { user, onClosing } = useTelegram();
   const {userData, loading, error, updateUserData} = useApiData(user);
 
   const [localData, setLocalData] = useState(null);
-
   const [isPressed, setIsPressed] = useState(false);
 
   const lastSyncedData = useRef(localData);
@@ -88,19 +88,24 @@ const Clicker = () => {
   }, [localData, isSyncing, user?.id, updateUserData]);
 
 
-  // useEffect(() => {
-  //   const handleClose = () => {
-  //     if (lastSyncedData.current) {
-  //       console.log(123123);
-  //       putData(`/api/users/${user?.id}/`, lastSyncedData.current)
-  //         .then(() => console.log("Успешно!"))
-  //         .catch((err) => console.err('Ошибочка!', err));
-  //     }
-  //   };
+  useEffect(() => {
+    if (!onClosing) return;
     
-  //   onClose()
-
-  // }, [user?.id, tg, onClose])
+    const cleanUp = onClosing(() => {
+      console.log('Закрываем телегу');
+      if (lastSyncedData && user?.id) {
+        navigator.sendBeacon(
+          `${API_URL}/api/users/${user.id}/`,
+          JSON.stringify({
+            id: user.id,
+            ...lastSyncedData.current
+          })
+        );
+      }
+    });
+    
+    return cleanUp;
+  }, [user?.id, onClosing])
 
 
   if (loading) return <div>Загрузка...</div>;

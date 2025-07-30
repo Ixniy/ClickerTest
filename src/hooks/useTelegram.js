@@ -14,8 +14,18 @@ export function useTelegram() {
         }
     }
 
+    const onClosing = (callback) => {
+        tg.onEvent('viewportChanged', (e) => {
+            if (e.is_state_stable === false) {
+                callback()
+            }
+        });
+        return () => tg.offEvent('viewportChanged');
+    }
+
     return {
         onClose,
+        onClosing,
         onToggleButton,
         tg,
         user: tg.initDataUnsafe?.user,
