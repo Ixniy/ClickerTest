@@ -50,7 +50,7 @@ const Clicker = () => {
         energy: userData?.data?.energy || 500,
         level: userData?.data?.level || 1
       });
-      lastSyncedData.current =   { stars, energy, level };
+      lastSyncedData.current = { stars, energy, level };
     }
   }, [userData?.data]);
 
@@ -58,13 +58,7 @@ const Clicker = () => {
     const syncInterval = setInterval(async () => {
       if (
         !isSyncing &&
-        localData &&
-        lastSyncedData.current &&
-        (
-          lastSyncedData.current.stars !== localData.stars ||
-          lastSyncedData.current.energy !== localData.energy ||
-          lastSyncedData.current.level !== localData.level
-        )
+        localData 
       ) {
         console.log('Conditions in syncInterval are good');
         setIsSyncing(true);
@@ -89,7 +83,7 @@ const Clicker = () => {
   useEffect(() => {
     return () => {
       if (localData && user?.id) {
-        putData(`/api/users/${user?.id}/`, localData)
+        putData(`/api/users/${user?.id}/`, lastSyncedData.current)
           .then(() => console.log("Успешно!"))
           .catch((err) => console.err('Ошибочка!', err));
       }
