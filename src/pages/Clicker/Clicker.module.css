@@ -79,7 +79,7 @@ img {
     transform: scale(1);
     transition: all .2s ease;
     position: relative;
-
+}
 .pressed {
     transform: scale(1.25);
 }
@@ -170,6 +170,4 @@ img {
     opacity: 0;
     transform: translate(-50%, calc(-50% - 50px)) scale(1.2);
   }
-}
-
 }
