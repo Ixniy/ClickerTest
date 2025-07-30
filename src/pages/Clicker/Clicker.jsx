@@ -101,19 +101,7 @@ const Clicker = () => {
       navigator.sendBeacon(`${API_URL}/api/users/${user.id}/`, data);
       console.log("Данные отправлены через sendBeacon");
     } 
-    // 2. Если не поддерживается — fetch с keepalive
-    else {
-      fetch(`${API_URL}/api/users/${user.id}/`, {
-        method: 'PUT',
-        body: lastSyncedData,
-        headers: { 'Content-Type': 'application/json' },
-        keepalive: true, // Важно! Пытается отправить даже после закрытия
-      }).catch(() => {});
-      console.log("Данные отправлены через fetch + keepalive");
-    }
   };
-
-  // Вешаем обработчики на ВСЕ возможные события закрытия
     window.addEventListener('beforeunload', forceSyncOnExit); // Закрытие вкладки
     window.addEventListener('pagehide', forceSyncOnExit);     // Mobile Safari
     window.addEventListener('unload', forceSyncOnExit);
