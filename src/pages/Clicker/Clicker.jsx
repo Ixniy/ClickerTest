@@ -44,13 +44,13 @@ const Clicker = () => {
   }
 
   useEffect(() => {
-    if (userData?.data) {
+    if (userData?.data && !lastSyncedData.current) {
       setLocalData({
         stars: userData?.data?.stars || 0,
         energy: userData?.data?.energy || 500,
         level: userData?.data?.level || 1
       });
-
+      lastSyncedData.current = {stars: userData.data.star, energy: userData.data.energy, level: userData.data.level};
     }
   }, [userData?.data]);
 
