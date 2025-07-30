@@ -120,15 +120,15 @@ const Clicker = () => {
   //   window.addEventListener('unload', forceSyncOnExit);
   // }, [user.id, tg, onClose])
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     setParticles(prev => 
-  //       prev.filter(p => Date.now() - p.createdAt < 1000) 
-  //     );
-  //   }, 300); 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setParticles(prev => 
+        prev.filter(p => Date.now() - p.createdAt < 1000) 
+      );
+    }, 900); 
 
-  // return () => clearInterval(interval); 
-  // });
+  return () => clearInterval(interval); 
+  });
 
 
   if (loading) return <div>Загрузка...</div>;
