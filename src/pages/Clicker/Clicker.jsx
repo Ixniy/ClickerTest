@@ -89,23 +89,33 @@ const Clicker = () => {
 
 
   useEffect(() => {    
-    const cleanUp = onClosing(() => {
-      console.log('Закрываем телегу');
+   const cleanup = onClosing(() => {
+    if (lastSyncedData.current && user?.id) {
+      // 1. Формируем данные
+      const dataToSave = {
+        id: user.id,
+        stars: lastSyncedData.current.stars,
+        energy: lastSyncedData.current.energy,
+        level: lastSyncedData.current.level
+      };
 
-      if (lastSyncedData && user?.id) {
-        navigator.sendBeacon(
-          `${API_URL}/api/users/${user.id}/`,
-          JSON.stringify({
-            id: user.id,
-            ...lastSyncedData.current
-          })
-        );
-        putData(`/api/users/${user.id}/`, ...lastSyncedData.current)
-          .catch(e => console.error('Ошибка PUT:', e));
+      // 2. Пытаемся отправить через sendBeacon (гарантированно)
+      const beaconSent = navigator.sendBeacon(
+        `${API_URL}/api/users/${user.id}/`,
+        JSON.stringify(dataToSave)
+      );
+
+      // 3. Если Beacon не поддерживается - обычный PUT
+      if (!beaconSent) {
+        putData(`/api/users/${user.id}/`, dataToSave)
+          .catch(e => console.error('Ошибка сохранения:', e));
       }
-    });
-    
-    return cleanUp;
+
+      console.log('Данные сохранены при закрытии:', dataToSave);
+    }
+  });
+
+  return cleanup; // Отпишемся при размонтировании
   }, [user?.id, onClosing])
 
 
