@@ -25,13 +25,13 @@ const Clicker = () => {
 
     const newParticles = Array(5).fill().map(() => ({
       id: Math.random().toString(36).substring(2, 9),
-      x: Math.random() * 250 - 50, // Позиция X (-50..50)
-      y: Math.random() * 250 - 50, // Позиция Y (-50..50)
-      size: Math.random() * 15 + 5, // Размер (5..15px)
+      x: Math.random() * 250 - 50, 
+      y: Math.random() * 250 - 50, 
+      size: Math.random() * 15 + 5,
+      createdAt: Date.now(),
     }));
-    setParticles(newParticles);
+    setParticles(prev => [...prev, ...newParticles]);
 
-    // 2. Удаляем звёздочки через 1 секунду
     setTimeout(() => setParticles([]), 1000);
 
 
@@ -52,6 +52,16 @@ const Clicker = () => {
     });
 
   };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setParticles(prev => 
+        prev.filter(p => Date.now() - p.createdAt < 1000) 
+      );
+    }, 300); 
+
+  return () => clearInterval(interval); 
+  })
 
   const handlePressEnd = () => {
     setIsPressed(false);
