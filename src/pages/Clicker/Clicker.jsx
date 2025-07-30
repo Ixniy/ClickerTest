@@ -105,7 +105,7 @@ const Clicker = () => {
             setIsSyncing(false);
         }
       }
-    }, 300);
+    }, 100);
 
     return () => clearInterval(syncInterval);
 
