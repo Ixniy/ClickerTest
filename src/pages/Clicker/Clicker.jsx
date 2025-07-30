@@ -6,10 +6,10 @@ import Light from '../../assets/images/Light.png';
 import {putData} from '../../services/putFetchData';
 import { useTelegram } from '../../hooks/useTelegram';
 import useApiData from '../../hooks/useApiData';
-
+import API_URL from '../../hooks/useApiData';
 
 const Clicker = () => {
-  const { user, onClosing } = useTelegram();
+  const { user} = useTelegram();
   const {userData, loading, error, updateUserData} = useApiData(user);
 
   const [localData, setLocalData] = useState(null);
@@ -88,13 +88,33 @@ const Clicker = () => {
 
 
   useEffect(() => {    
-    const cleanup = onClosing(() => {
-      if (lastSyncedData.current) {
-        putData(`/api/users/${user.id}/`, lastSyncedData.current);
-      }
+    const sendDataOnExit = () => {
+    if (!lastSyncedData.current) return;
+    
+    const data = JSON.stringify({
+      id: user?.id,
+      ...lastSyncedData.current,
     });
-    return cleanup;
-  }, [user?.id, onClosing])
+
+    // Используем Beacon API, если доступен (работает даже при закрытии вкладки)
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon(`${API_URL}/api/users/${user?.id}/`, data);
+    } 
+    // Если нет — пытаемся отправить обычным fetch (менее надежно)
+    else {
+      fetch(`${API_URL}/api/users/${user?.id}/`, {
+        method: 'PUT',
+        body: data,
+        headers: { 'Content-Type': 'application/json' },
+        keepalive: true, // Пытаемся отправить даже после закрытия
+      }).catch(console.error);
+    }
+  };
+  window.addEventListener('beforeunload', sendDataOnExit);
+  return () => {
+    window.removeEventListener('beforeunload', sendDataOnExit);
+  }
+  }, [user?.id])
 
 
   if (loading) return <div>Загрузка...</div>;
