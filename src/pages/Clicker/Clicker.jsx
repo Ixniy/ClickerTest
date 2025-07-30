@@ -91,7 +91,7 @@ const Clicker = () => {
   useEffect(() => {    
     const cleanUp = onClosing(() => {
       console.log('Закрываем телегу');
-      
+
       if (lastSyncedData && user?.id) {
         navigator.sendBeacon(
           `${API_URL}/api/users/${user.id}/`,
@@ -100,6 +100,8 @@ const Clicker = () => {
             ...lastSyncedData.current
           })
         );
+        putData(`/api/users/${user.id}/`, ...lastSyncedData.current)
+          .catch(e => console.error('Ошибка PUT:', e));
       }
     });
     
