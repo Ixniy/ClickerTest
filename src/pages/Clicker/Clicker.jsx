@@ -6,10 +6,10 @@ import Light from '../../assets/images/Light.png';
 import {putData} from '../../services/putFetchData';
 import { useTelegram } from '../../hooks/useTelegram';
 import useApiData from '../../hooks/useApiData';
-import API_URL from '../../hooks/useApiData';
+// import API_URL from '../../hooks/useApiData';
 
 const Clicker = () => {
-  const { tg, user, onClose } = useTelegram();
+  const { user} = useTelegram();
   const {userData, loading, error, updateUserData} = useApiData(user);
 
   const [localData, setLocalData] = useState(null);
