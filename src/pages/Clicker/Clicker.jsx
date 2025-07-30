@@ -70,6 +70,7 @@ const Clicker = () => {
 
   useEffect(() => {
     const syncInterval = setInterval(async () => {
+      console.log(123)
       if (
         !isSyncing &&
         localData &&
@@ -95,7 +96,8 @@ const Clicker = () => {
             setIsSyncing(false);
         }
       }
-    }, 2000); 
+    }, 2000);
+    syncInterval();
 
     return () => clearInterval(syncInterval);
 
@@ -125,7 +127,7 @@ const Clicker = () => {
       setParticles(prev => 
         prev.filter(p => Date.now() - p.createdAt < 1000) 
       );
-    }, 700); 
+    }, 300); 
 
   return () => clearInterval(interval); 
   });
