@@ -65,6 +65,7 @@ const Clicker = () => {
         localData &&
         lastSyncedData.current
       ) {
+        console.log(localData, lastSyncedData);
         console.log('Conditions in syncInterval are good');
         setIsSyncing(true);
         try {
