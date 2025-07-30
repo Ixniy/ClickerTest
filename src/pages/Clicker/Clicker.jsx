@@ -24,7 +24,7 @@ const Clicker = () => {
   const handlePressStart = () => {
     if (localData.energy <= 0) return;
 
-    const starsParticles = newParticles();
+    const starsParticles = newParticles;
     setParticles(prev => [...prev, ...starsParticles]);
 
     setTimeout(() => setParticles([]), 1000);
