@@ -41,6 +41,7 @@ const Clicker = () => {
       const newStars = Number((prev.stars + 0.0004).toFixed(8));
       const newEnergy = prev.energy - 1;
       const newLevel = newStars >= Math.floor(prev.stars) + 1 ? prev.level + 1 : prev.level;
+      console.log(newStars, newEnergy, newLevel)
       
       lastSyncedData.current = { stars: newStars, energy: newEnergy, level: newLevel };
       
@@ -53,7 +54,6 @@ const Clicker = () => {
     const syncInterval = setInterval(async () => {
       if (
         !isSyncing &&
-        lastSyncedData.current.stars !== localData.stars &&
         localData
       ) {
         console.log('Conditions in syncInterval are good');
