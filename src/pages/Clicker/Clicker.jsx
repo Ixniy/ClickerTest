@@ -69,6 +69,7 @@ const Clicker = () => {
   }, [userData?.data]);
 
   useEffect(() => {
+    console.log(123);
     const syncInterval = setInterval(async () => {
       if (
         !isSyncing &&
