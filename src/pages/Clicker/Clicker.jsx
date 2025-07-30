@@ -28,6 +28,7 @@ const Clicker = () => {
       y: Math.random() * 100 - 50,
       size: Math.random() * 10 + 5, 
     }));
+    console.log("New particles:", newParticles);
     setParticles(newParticles);
 
     setTimeout(() => setParticles([]), 1000);
@@ -154,6 +155,7 @@ const Clicker = () => {
                     height: `${particle.size}px`,
                   }}
                 >
+                <img src={ClickerStar} alt="star" />
                 </div>
               ))}
             </button>
