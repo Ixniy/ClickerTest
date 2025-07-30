@@ -1,5 +1,5 @@
 import axios from 'axios';
-const API_URL = 'https://sturdy-bassoon-w64px65597f55gr-80.app.github.dev';
+const API_URL = 'https://jubilant-space-rotary-phone-xqjw597r5pq2p6p4-80.app.github.dev';
 
 export const putData = async (endpoint, postData) => {
   try {

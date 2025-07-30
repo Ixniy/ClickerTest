@@ -6,10 +6,11 @@ import Light from '../../assets/images/Light.png';
 import {putData} from '../../services/putFetchData';
 import { useTelegram } from '../../hooks/useTelegram';
 import useApiData from '../../hooks/useApiData';
+import { newParticles } from '../../utils/fontawesome';
 // import API_URL from '../../hooks/useApiData';
 
 const Clicker = () => {
-  const { user} = useTelegram();
+  const { user } = useTelegram();
   const {userData, loading, error, updateUserData} = useApiData(user);
 
   const [localData, setLocalData] = useState(null);
@@ -23,14 +24,8 @@ const Clicker = () => {
   const handlePressStart = () => {
     if (localData.energy <= 0) return;
 
-    const newParticles = Array(5).fill().map(() => ({
-      id: Math.random().toString(36).substring(2, 9),
-      x: Math.random() * 250 - 150, 
-      y: Math.random() * 250 - 150, 
-      size: Math.random() * 20 + 5,
-      createdAt: Date.now(),
-    }));
-    setParticles(prev => [...prev, ...newParticles]);
+    const starsParticles = newParticles();
+    setParticles(prev => [...prev, ...starsParticles]);
 
     setTimeout(() => setParticles([]), 1000);
 
@@ -52,16 +47,6 @@ const Clicker = () => {
     });
 
   };
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setParticles(prev => 
-        prev.filter(p => Date.now() - p.createdAt < 1000) 
-      );
-    }, 700); 
-
-  return () => clearInterval(interval); 
-  })
 
   const handlePressEnd = () => {
     setIsPressed(false);
@@ -110,6 +95,17 @@ const Clicker = () => {
     return () => clearInterval(syncInterval);
 
   }, [localData, isSyncing, user?.id, updateUserData]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setParticles(prev => 
+        prev.filter(p => Date.now() - p.createdAt < 1000) 
+      );
+    }, 700); 
+
+  return () => clearInterval(interval); 
+  });
+
 
 
   // useEffect(() => {    
@@ -189,7 +185,7 @@ const Clicker = () => {
               <span className={classes.lvl}>lvl {localData?.level}</span>
             )}
           </div>
-          <progress value={localData.energy} max={500} className={classes.staminaBar} />
+          <progress value={localData.stars} max={localData.stars + 1} className={classes.staminaBar} />
         </div>
       </div>
       <BottomNav />

@@ -1,4 +1,8 @@
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faUser, faStar, faTicket } from '@fortawesome/free-solid-svg-icons';
+export const newParticles = Array(5).fill().map(() => ({
 
-library.add(faUser, faStar, faTicket);
+    id: Math.random().toString(36).substring(2, 9),
+    x: Math.random() * 250 - 150, 
+    y: Math.random() * 250 - 150, 
+    size: Math.random() * 20 + 5,
+    createdAt: Date.now(),
+}));
