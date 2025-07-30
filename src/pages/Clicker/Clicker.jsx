@@ -88,17 +88,35 @@ const Clicker = () => {
 
 
   useEffect(() => {    
-    onClose(() => {
-      if (lastSyncedData.current) {
-        // Отправляем запрос, но не ждём ответа
-        fetch(`${API_URL}/api/users/${user.id}/`, {
-          method: 'PUT',
-          body: JSON.stringify(lastSyncedData.current),
-          headers: { 'Content-Type': 'application/json' },
-        }).catch(() => {});
-      }
-      setTimeout(() => tg.close(), 100); // Даём время на отправку
+    const forceSyncOnExit = () => {
+    if (!lastSyncedData.current) return;
+    
+    const data = JSON.stringify({
+      id: user?.id,
+      ...lastSyncedData.current,
     });
+
+    // 1. Пробуем Beacon API (работает даже при убийстве процесса)
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon(`${API_URL}/api/users/${user.id}/`, data);
+      console.log("Данные отправлены через sendBeacon");
+    } 
+    // 2. Если не поддерживается — fetch с keepalive
+    else {
+      fetch(`${API_URL}/api/users/${user.id}/`, {
+        method: 'PUT',
+        body: data,
+        headers: { 'Content-Type': 'application/json' },
+        keepalive: true, // Важно! Пытается отправить даже после закрытия
+      }).catch(() => {});
+      console.log("Данные отправлены через fetch + keepalive");
+    }
+  };
+
+  // Вешаем обработчики на ВСЕ возможные события закрытия
+    window.addEventListener('beforeunload', forceSyncOnExit); // Закрытие вкладки
+    window.addEventListener('pagehide', forceSyncOnExit);     // Mobile Safari
+    window.addEventListener('unload', forceSyncOnExit);
   }, [user.id, tg, onClose])
 
 
