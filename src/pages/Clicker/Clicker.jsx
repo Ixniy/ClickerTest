@@ -18,8 +18,21 @@ const Clicker = () => {
   const lastSyncedData = useRef(localData);
   const [isSyncing, setIsSyncing] = useState(false);
 
+  const [particles, setParticles] = useState([]);
+
   const handlePressStart = () => {
     if (localData.energy <= 0) return;
+    const newParticles = Array(5).fill().map(() => ({
+      id: Math.random().toString(36).substring(2, 9),
+      x: Math.random() * 100 - 50, 
+      y: Math.random() * 100 - 50,
+      size: Math.random() * 10 + 5, 
+    }));
+    setParticles(newParticles);
+
+    setTimeout(() => setParticles([]), 1000);
+
+
     console.log('Клик! Текущие данные:', {
       localData,
       lastSynced: lastSyncedData.current
@@ -130,6 +143,19 @@ const Clicker = () => {
                 onClick={handlePressStart}
               >
               <img className={classes.star} src={ClickerStar} alt='clicker star' draggable="false"/>
+              {particles.map(particle => (
+                <div
+                  key={particle.id}
+                  className={classes.starParticle}
+                  style={{
+                    left: `calc(50% + ${particle.x}px)`,
+                    top: `calc(50% + ${particle.y}px)`,
+                    width: `${particle.size}px`,
+                    height: `${particle.size}px`,
+                  }}
+                >
+                </div>
+              ))}
             </button>
 
             <div className={classes.staminaWrapper}>
