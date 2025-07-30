@@ -57,15 +57,15 @@ const Clicker = () => {
   const handlePressEnd = () => {
     setIsPressed(false);
   }
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setParticles(prev => 
-        prev.filter(p => Date.now() - p.createdAt < 1000) 
-      );
-    }, 900); 
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setParticles(prev => 
+  //       prev.filter(p => Date.now() - p.createdAt < 1000) 
+  //     );
+  //   }, 900); 
 
-    return () => clearInterval(interval); 
-  });
+  //   return () => clearInterval(interval); 
+  // });
 
   useEffect(() => {
     if (userData?.data && !lastSyncedData.current) {
@@ -105,7 +105,7 @@ const Clicker = () => {
             setIsSyncing(false);
         }
       }
-    }, 2000);
+    }, 1000);
 
     return () => clearInterval(syncInterval);
 
