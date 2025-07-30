@@ -10,7 +10,7 @@ import API_URL from '../../hooks/useApiData';
 
 
 const Clicker = () => {
-  const { user, onClosing } = useTelegram();
+  const { user } = useTelegram();
   const {userData, loading, error, updateUserData} = useApiData(user);
 
   const [localData, setLocalData] = useState(null);
@@ -89,34 +89,33 @@ const Clicker = () => {
 
 
   useEffect(() => {    
-   const cleanup = onClosing(() => {
+   const handleUnload = () => {
     if (lastSyncedData.current && user?.id) {
-      // 1. Формируем данные
-      const dataToSave = {
+      // Формируем данные для отправки
+      const data = {
         id: user.id,
         stars: lastSyncedData.current.stars,
         energy: lastSyncedData.current.energy,
         level: lastSyncedData.current.level
       };
 
-      // 2. Пытаемся отправить через sendBeacon (гарантированно)
-      const beaconSent = navigator.sendBeacon(
+      // Отправка через navigator.sendBeacon (работает даже при резком закрытии)
+      navigator.sendBeacon(
         `${API_URL}/api/users/${user.id}/`,
-        JSON.stringify(dataToSave)
+        JSON.stringify(data)
       );
-
-      // 3. Если Beacon не поддерживается - обычный PUT
-      if (!beaconSent) {
-        putData(`/api/users/${user.id}/`, dataToSave)
-          .catch(e => console.error('Ошибка сохранения:', e));
-      }
-
-      console.log('Данные сохранены при закрытии:', dataToSave);
+      
+      console.log('Данные отправлены при закрытии:', data);
     }
-  });
+  };
 
-  return cleanup; // Отпишемся при размонтировании
-  }, [user?.id, onClosing])
+  window.addEventListener('beforeunload', handleUnload);
+  
+  return () => {
+    window.removeEventListener('beforeunload', handleUnload);
+  };
+
+  }, [user?.id])
 
 
   if (loading) return <div>Загрузка...</div>;
