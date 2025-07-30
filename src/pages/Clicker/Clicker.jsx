@@ -58,7 +58,13 @@ const Clicker = () => {
     const syncInterval = setInterval(async () => {
       if (
         !isSyncing &&
-        localData 
+        localData &&
+        lastSyncedData.current &&
+        (
+          lastSyncedData.current.stars !== localData.stars ||
+          lastSyncedData.current.energy !== localData.energy ||
+          lastSyncedData.current.level !== localData.level
+        )
       ) {
         console.log('Conditions in syncInterval are good');
         setIsSyncing(true);
