@@ -70,7 +70,6 @@ const Clicker = () => {
 
   useEffect(() => {
     const syncInterval = setInterval(async () => {
-      console.log(123)
       if (
         !isSyncing &&
         localData &&
