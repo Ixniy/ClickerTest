@@ -20,7 +20,12 @@ export function useTelegram() {
                 callback()
             }
         });
-        return () => tg.offEvent('viewportChanged');
+
+        window.addEventListener('beforeunload', callback);
+        return () => {
+            tg.offEvent('viewportChanged');
+            window.removeEventListener('beforeunload', callback);
+        }
     }
 
     return {

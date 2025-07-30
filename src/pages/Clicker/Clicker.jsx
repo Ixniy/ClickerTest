@@ -88,11 +88,10 @@ const Clicker = () => {
   }, [localData, isSyncing, user?.id, updateUserData]);
 
 
-  useEffect(() => {
-    if (!onClosing) return;
-    
+  useEffect(() => {    
     const cleanUp = onClosing(() => {
       console.log('Закрываем телегу');
+      
       if (lastSyncedData && user?.id) {
         navigator.sendBeacon(
           `${API_URL}/api/users/${user.id}/`,
