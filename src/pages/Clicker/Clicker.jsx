@@ -19,6 +19,7 @@ const Clicker = () => {
   const lastSyncedData = useRef(localData);
   const [isSyncing, setIsSyncing] = useState(false);
 
+  
 
   const handlePressStart = () => {
     if (localData.energy <= 0) return;
@@ -56,6 +57,15 @@ const Clicker = () => {
   const handlePressEnd = () => {
     setIsPressed(false);
   }
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setParticles(prev => 
+        prev.filter(p => Date.now() - p.createdAt < 1000) 
+      );
+    }, 900); 
+
+    return () => clearInterval(interval); 
+  });
 
   useEffect(() => {
     if (userData?.data && !lastSyncedData.current) {
@@ -119,16 +129,6 @@ const Clicker = () => {
   //   window.addEventListener('pagehide', forceSyncOnExit);    
   //   window.addEventListener('unload', forceSyncOnExit);
   // }, [user.id, tg, onClose])
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setParticles(prev => 
-        prev.filter(p => Date.now() - p.createdAt < 1000) 
-      );
-    }, 900); 
-
-  return () => clearInterval(interval); 
-  });
 
 
   if (loading) return <div>Загрузка...</div>;
