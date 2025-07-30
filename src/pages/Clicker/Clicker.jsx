@@ -153,6 +153,7 @@ const Clicker = () => {
               <button className={`${classes.actionBtn} ${isPressed ? classes.pressed : ''}`} 
                 onTouchStart={handlePressStart}
                 onTouchEnd={handlePressEnd}
+                onClick={handlePressStart}
               >
               <img className={classes.star} src={ClickerStar} alt='clicker star' draggable="false"/>
               {particles.map(particle => (
