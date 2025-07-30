@@ -46,7 +46,7 @@ const Clicker = () => {
   }
 
   useEffect(() => {
-    if (userData?.data) {
+    if (userData?.data && !lastSyncedData.current) {
       setLocalData({
         stars: userData?.data?.stars || 0,
         energy: userData?.data?.energy || 500,
@@ -60,13 +60,20 @@ const Clicker = () => {
       if (
         !isSyncing &&
         localData &&
-        lastSyncedData.current &&
-        (
+        lastSyncedData.current
+      ) {
+        const hasChanges = (
           lastSyncedData.current.stars !== localData.stars ||
           lastSyncedData.current.energy !== localData.energy ||
           lastSyncedData.current.level !== localData.level
-        )
-      ) {
+        );
+
+        if (hasChanges) {
+          console.log('[Sync] Изменения:', {
+            last: lastSyncedData.current,
+            current: localData
+          });
+        }
         console.log(localData, lastSyncedData);
         console.log('Conditions in syncInterval are good');
         setIsSyncing(true);
