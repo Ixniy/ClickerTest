@@ -17,6 +17,10 @@ const Clicker = () => {
   const [isPressed, setIsPressed] = useState(false);
 
   const lastSyncedData = useRef(localData);
+  const savedData = useRef({
+    localData: null,
+    userId: null,
+  })
   const [isSyncing, setIsSyncing] = useState(false);
 
   const handlePressStart = () => {
@@ -87,14 +91,21 @@ const Clicker = () => {
   }, [localData, isSyncing, user?.id, updateUserData]);
 
   useEffect(() => {
+    savedData.current = {
+      localData,
+      userId: user?.id
+    }
+  }, [localData, user?.id])
+
+  useEffect(() => {
     return () => {
-      if (localData && user?.id) {
+      if (savedData.current.localData && savedData.current.userId) {
         putData(`/api/users/${user?.id}/`, lastSyncedData.current)
           .then(() => console.log("Успешно!"))
           .catch((err) => console.err('Ошибочка!', err));
       }
     };
-  }, [user?.id, localData])
+  })
 
 
   if (loading) return <div>Загрузка...</div>;
