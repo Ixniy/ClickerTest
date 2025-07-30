@@ -105,7 +105,7 @@ const Clicker = () => {
     else {
       fetch(`${API_URL}/api/users/${user.id}/`, {
         method: 'PUT',
-        body: data,
+        body: lastSyncedData,
         headers: { 'Content-Type': 'application/json' },
         keepalive: true, // Важно! Пытается отправить даже после закрытия
       }).catch(() => {});
