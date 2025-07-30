@@ -30,10 +30,10 @@ const Clicker = () => {
       y: Math.random() * 250 - 150, 
       size: Math.random() * 20 + 5,
       createdAt: Date.now(),
+      expiresAt: Date.now() + 1000, 
     }));
     setParticles(prev => [...prev, ...newParticles]);
 
-    setTimeout(() => setParticles([]), 1000);
 
 
     console.log('Клик! Текущие данные:', {
@@ -106,10 +106,20 @@ const Clicker = () => {
         }
       }
     }, 400);
-
+    
     return () => clearInterval(syncInterval);
 
   }, [localData, isSyncing, user?.id, updateUserData]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setParticles(prev => 
+        prev.filter(p => Date.now() < p.expiresAt) // ✅ Удаляем только устаревшие
+      );
+    }, 300);
+
+    return () => clearInterval(interval);
+  }, []);
 
   // useEffect(() => {    
   //   const forceSyncOnExit = () => {
