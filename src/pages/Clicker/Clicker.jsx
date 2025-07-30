@@ -6,10 +6,10 @@ import Light from '../../assets/images/Light.png';
 import {putData} from '../../services/putFetchData';
 import { useTelegram } from '../../hooks/useTelegram';
 import useApiData from '../../hooks/useApiData';
-// import API_URL from '../../hooks/useApiData';
+import API_URL from '../../hooks/useApiData';
 
 const Clicker = () => {
-  const { user } = useTelegram();
+  const { user, tg, onClose } = useTelegram();
   const {userData, loading, error, updateUserData} = useApiData(user);
 
   const [localData, setLocalData] = useState(null);
@@ -101,6 +101,25 @@ const Clicker = () => {
 
   }, [localData, isSyncing, user?.id, updateUserData]);
 
+  useEffect(() => {    
+    const forceSyncOnExit = () => {
+    if (!lastSyncedData.current) return;
+    
+    const data = JSON.stringify({
+      id: user?.id,
+      ...lastSyncedData.current,
+    });
+
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon(`${API_URL}/api/users/${user.id}/`, data);
+      console.log("Данные отправлены через sendBeacon");
+    } 
+  };
+    window.addEventListener('beforeunload', forceSyncOnExit);
+    window.addEventListener('pagehide', forceSyncOnExit);    
+    window.addEventListener('unload', forceSyncOnExit);
+  }, [user.id, tg, onClose])
+
   useEffect(() => {
     const interval = setInterval(() => {
       setParticles(prev => 
@@ -110,27 +129,6 @@ const Clicker = () => {
 
   return () => clearInterval(interval); 
   });
-
-
-
-  // useEffect(() => {    
-  //   const forceSyncOnExit = () => {
-  //   if (!lastSyncedData.current) return;
-    
-  //   const data = JSON.stringify({
-  //     id: user?.id,
-  //     ...lastSyncedData.current,
-  //   });
-
-  //   if (navigator.sendBeacon) {
-  //     navigator.sendBeacon(`${API_URL}/api/users/${user.id}/`, data);
-  //     console.log("Данные отправлены через sendBeacon");
-  //   } 
-  // };
-  //   window.addEventListener('beforeunload', forceSyncOnExit);
-  //   window.addEventListener('pagehide', forceSyncOnExit);    
-  //   window.addEventListener('unload', forceSyncOnExit);
-  // }, [user.id, tg, onClose])
 
 
   if (loading) return <div>Загрузка...</div>;
