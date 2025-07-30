@@ -34,8 +34,6 @@ const Clicker = () => {
       const newLevel = newStars >= Math.floor(prev.stars) + 1 ? prev.level + 1 : prev.level;
       console.log(newStars, newEnergy, newLevel)
       
-      lastSyncedData.current = { stars: newStars, energy: newEnergy, level: newLevel };
-      
       return { stars: newStars, energy: newEnergy, level: newLevel };
     });
 
@@ -46,12 +44,13 @@ const Clicker = () => {
   }
 
   useEffect(() => {
-    if (userData?.data && !lastSyncedData.current) {
+    if (userData?.data) {
       setLocalData({
         stars: userData?.data?.stars || 0,
         energy: userData?.data?.energy || 500,
         level: userData?.data?.level || 1
       });
+
     }
   }, [userData?.data]);
 
@@ -60,21 +59,13 @@ const Clicker = () => {
       if (
         !isSyncing &&
         localData &&
-        lastSyncedData.current
-      ) {
-        const hasChanges = (
+        lastSyncedData.current &&
+        (
           lastSyncedData.current.stars !== localData.stars ||
           lastSyncedData.current.energy !== localData.energy ||
           lastSyncedData.current.level !== localData.level
-        );
-
-        if (hasChanges) {
-          console.log('[Sync] Изменения:', {
-            last: lastSyncedData.current,
-            current: localData
-          });
-        }
-        console.log(localData, lastSyncedData);
+        )
+      ) {
         console.log('Conditions in syncInterval are good');
         setIsSyncing(true);
         try {
