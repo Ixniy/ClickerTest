@@ -111,15 +111,15 @@ const Clicker = () => {
 
   }, [localData, isSyncing, user?.id, updateUserData]);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setParticles(prev => 
-        prev.filter(p => Date.now() < p.expiresAt) 
-      );
-    }, 300);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setParticles(prev => 
+  //       prev.filter(p => Date.now() < p.expiresAt) 
+  //     );
+  //   }, 300);
 
-    return () => clearInterval(interval);
-  }, []);
+  //   return () => clearInterval(interval);
+  // }, []);
 
   // useEffect(() => {    
   //   const forceSyncOnExit = () => {
