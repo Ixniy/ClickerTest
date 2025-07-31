@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-export const API_URL = 'https://jubilant-space-rotary-phone-xqjw597r5pq2p6p4-80.app.github.dev';
+export const API_URL = 'https://verbose-yodel-g956j779pqvh5pw-80.app.github.dev';
 
 const useApiData = (user) => {
   const [userData, setUserData] = useState(null);

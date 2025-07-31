@@ -114,7 +114,7 @@ const Clicker = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setParticles(prev => 
-        prev.filter(p => Date.now() < p.expiresAt) // ✅ Удаляем только устаревшие
+        prev.filter(p => Date.now() < p.expiresAt) 
       );
     }, 300);
 
@@ -208,3 +208,4 @@ const Clicker = () => {
 }
 
 export default Clicker
+
