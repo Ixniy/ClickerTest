@@ -1,5 +1,5 @@
 import axios from 'axios';
-const API_URL = 'https://verbose-yodel-g956j779pqvh5pw-80.app.github.dev';
+const API_URL = 'https://bug-free-pancake-74g9vr6vqj7hrjv4-80.app.github.dev';
 
 export const putData = async (endpoint, postData) => {
   try {
